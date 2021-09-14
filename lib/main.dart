@@ -25,11 +25,21 @@ class MyStatelessWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 1,
-      length: 6,
+      length: 6,//タブの数
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('TabBar Widget'),
-          bottom: const TabBar(
+          backgroundColor: Colors.white,
+          bottom: TabBar(
+            ///タブオプション
+            isScrollable: true,//スクロール
+            unselectedLabelColor: Colors.black.withOpacity(0.3),//選択されてないタブの色
+            unselectedLabelStyle: TextStyle(fontSize: 12.0),//選択されていないタブのフォントサイズ
+            labelColor: Colors.black,//タブの文字の色
+            labelStyle: TextStyle(fontSize: 16.0),//選択されているフォントサイズ
+            indicatorColor: Colors.blue,
+            indicatorWeight: 3.0,
+
+
             tabs: <Widget>[
               Tab(
                 text: '全て',
@@ -49,31 +59,31 @@ class MyStatelessWidget extends StatelessWidget {
               Tab(
                 text: 'p: share',
               ),
-              
 
-            
+
+
             ],
           ),
         ),
         body: const TabBarView(
           children: <Widget>[
             Center(
-              child: Text(""),
+              child: Text("全てのIssueを表示する"),
             ),
             Center(
-              child: Text(""),
+              child: Text("p: webviewラベルの付いたIssueを表示する"),
             ),
             Center(
-              child: Text(""),
+              child: Text("p: shared_preferencesラベルの付いたIssueを表示する"),
             ),
             Center(
-              child: Text(""),
+              child: Text("waiting for customer responseラベルの付いたIssueを表示する"),
             ),
             Center(
-              child: Text(""),
+              child: Text("severe: new featureラベルの付いたIssueを表示する"),
             ),
             Center(
-              child: Text(""),
+              child: Text("severe: new featureラベルの付いたIssueを表示する"),
             ),
           ],
         ),
