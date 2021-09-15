@@ -15,4 +15,6 @@
         this.text,
         this.date,
         ) {}
+
   }
+

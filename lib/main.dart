@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'model.dart';
 
 void main() {
-
   runApp(const MyApp());
 }
-Issue issue = Issue('#0000', '', '', '', '');
 
 
-/// This is the main application widget.
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -27,6 +24,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+///タブリスト
 const List<Tab> tabs = <Tab>[
   Tab(text: '全て',),
   Tab(text: 'p: webview',),
@@ -38,7 +36,9 @@ const List<Tab> tabs = <Tab>[
 
 
 class MyStatelessWidget extends StatelessWidget {
-  const MyStatelessWidget({Key? key}) : super(key: key);
+  Issue issue = Issue('#0000', '0', 'Title', 'Text', 'Date');
+
+  MyStatelessWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,6 @@ class MyStatelessWidget extends StatelessWidget {
             labelStyle: TextStyle(fontSize: 16.0),//選択されているフォントサイズ
             indicatorColor: Colors.blue,//インディケーターの色
             indicatorWeight: 3.0,//インディケーターの太さ
-
             ///タブに表示する内容
             tabs: tabs,
           ),
@@ -100,38 +99,49 @@ class MyStatelessWidget extends StatelessWidget {
   ///issue一個分
   Container issueContainer() {
     return Container(
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text('No'),
-                                Text(issue.code),
-                                Icon(Icons.comment),
-                                Text(issue.coment),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(Icons.info),
-                                Text(issue.code),
-                              ],
-                            ),
+      child: Container(
+        alignment: Alignment.topLeft,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text('No'),
+                  Text(issue.code),
+                  Icon(Icons.comment),
+                  Text(issue.coment),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.info),
+                  Text(issue.title),
+                ],
+              ),
 
-                            Text('質問文'),
-                            Text('投稿時間'),
-                          ],
-                        )
-                    ),
-                    width: double.infinity,
-                    height: 100.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                    border: Border.all(color: Colors.green),
+              Container(
+                  width: double.infinity,
+                  height: 70.0,
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent.withOpacity(0.3),
+                    border: Border.all(color: Colors.blue),
                   ),
+                  child: Text(issue.text)
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                  child: Text(issue.date),
+              ),
+            ],
+          )
+      ),
+      width: double.infinity,
+      height: 150.0,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.green),
+    ),
 
-                  );
+    );
   }
 }
 
