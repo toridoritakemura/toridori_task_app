@@ -56,7 +56,7 @@ class MyStatelessWidget extends StatelessWidget {
             unselectedLabelColor: Colors.black.withOpacity(0.3),//選択されてないタブの色
             unselectedLabelStyle: const TextStyle(fontSize: 12.0),//選択されていないタブのフォントサイズ
             labelColor: Colors.black,//タブの文字の色
-            labelStyle: const TextStyle(fontSize: 16.0),//選択されているフォントサイズ
+            labelStyle: const TextStyle(  fontSize: 16.0),//選択されているフォントサイズ
             indicatorColor: Colors.blue,//インディケーターの色
             indicatorWeight: 3.0,//インディケーターの太さ
             ///タブに表示する内容
@@ -75,21 +75,52 @@ class MyStatelessWidget extends StatelessWidget {
                 },
               ),
             ),
-            const Center(
-              child: Text("p: webviewラベルの付いたIssueを表示する"),
+            Center(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: 50,
+                itemBuilder: (BuildContext context, int index) {
+                  return IssuePage();
+                },
+              ),
             ),
-            const Center(
-              child: Text("p: shared_preferencesラベルの付いたIssueを表示する"),
+            Center(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: 50,
+                itemBuilder: (BuildContext context, int index) {
+                  return IssuePage();
+                },
+              ),
             ),
-            const Center(
-              child: Text("waiting for customer responseラベルの付いたIssueを表示する"),
+            Center(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: 50,
+                itemBuilder: (BuildContext context, int index) {
+                  return IssuePage();
+                },
+              ),
             ),
-            const Center(
-              child: Text("severe: new featureラベルの付いたIssueを表示する"),
+            Center(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: 50,
+                itemBuilder: (BuildContext context, int index) {
+                  return IssuePage();
+                },
+              ),
             ),
-            const Center(
-              child: Text("severe: new featureラベルの付いたIssueを表示する"),
+            Center(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: 50,
+                itemBuilder: (BuildContext context, int index) {
+                  return IssuePage();
+                },
+              ),
             ),
+
           ],
         ),
       ),
@@ -101,6 +132,7 @@ class MyStatelessWidget extends StatelessWidget {
 
 }
 
+///Issue一個分
 class IssuePage extends  StatelessWidget {//継承
   IssuePage({Key? key}) : super(key: key);
   final Issue issue = Issue('#0000', '0', 'Title', 'Text', 'Date');
@@ -126,13 +158,15 @@ class IssuePage extends  StatelessWidget {//継承
                     ),
                     Row(
                       children: [
-                        const Icon(Icons.info),
+                        const Icon(
+                          Icons.info_outline,
+                          color: Colors.green,
+                        ),
                         Text(issue.title),
                       ],
                     ),
 
                     DecoratedBox(
-
                         decoration: BoxDecoration(
                           color: Colors.blueAccent.withOpacity(0.3),
                           border: Border.all(color: Colors.blue),
@@ -141,7 +175,27 @@ class IssuePage extends  StatelessWidget {//継承
                     ),
                     Align(
                       alignment: Alignment.bottomLeft,
-                      child: Text(issue.date),
+                      child: Row(
+                        children: [
+                          Text(issue.date),
+                          const Spacer(),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: Colors.black45,),
+                            ),
+                            child: const Text(
+                              'view full isue',
+                              style: TextStyle(
+                                color: Colors.black45,
+                              ),
+                            ),
+                            onPressed: (){
+                            },
+
+                          ),
+
+                        ],
+                      ),
                     ),
                   ],
                 )
