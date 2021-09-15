@@ -1,25 +1,47 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(const MyApp());
+}
 
-/// This is the main application widget.
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'Flutter Code Sample';
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: _title,
-      home: MyStatelessWidget(),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-/// This is the stateless widget that the main application instantiates.
-class MyStatelessWidget extends StatelessWidget {
-  const MyStatelessWidget({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+  List<String> titleList = ["amazon"," 楽天","Yhoo"];
+
+  void _incrementCounter() {
+    setState(() {
+
+      _counter++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +58,9 @@ class MyStatelessWidget extends StatelessWidget {
             unselectedLabelStyle: TextStyle(fontSize: 12.0),//選択されていないタブのフォントサイズ
             labelColor: Colors.black,//タブの文字の色
             labelStyle: TextStyle(fontSize: 16.0),//選択されているフォントサイズ
-            indicatorColor: Colors.blue,
-            indicatorWeight: 3.0,
-
-
+            indicatorColor: Colors.blue,//インディケーターの色
+            indicatorWeight: 3.0,//インディケーターの太さ
+            ///タブに表示する内容
             tabs: <Widget>[
               Tab(
                 text: '全て',
@@ -60,12 +81,11 @@ class MyStatelessWidget extends StatelessWidget {
                 text: 'p: share',
               ),
 
-
-
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
+          ///各内容のタブ
           children: <Widget>[
             Center(
               child: Text("全てのIssueを表示する"),
@@ -91,6 +111,7 @@ class MyStatelessWidget extends StatelessWidget {
     );
   }
 }
+
 
 
 
