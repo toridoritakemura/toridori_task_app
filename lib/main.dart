@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'model.dart';
 
@@ -36,7 +38,7 @@ const List<Tab> tabs = <Tab>[
 
 
 class MyStatelessWidget extends StatelessWidget {
-  Issue issue = Issue('#0000', '0', 'Title', 'Text', 'Date');
+  final Issue issue = Issue('#0000', '0', 'Title', 'Text', 'Date');
 
   MyStatelessWidget({Key? key}) : super(key: key);
 
@@ -52,9 +54,9 @@ class MyStatelessWidget extends StatelessWidget {
             ///タブオプション
             isScrollable: true,//スクロール
             unselectedLabelColor: Colors.black.withOpacity(0.3),//選択されてないタブの色
-            unselectedLabelStyle: TextStyle(fontSize: 12.0),//選択されていないタブのフォントサイズ
+            unselectedLabelStyle: const TextStyle(fontSize: 12.0),//選択されていないタブのフォントサイズ
             labelColor: Colors.black,//タブの文字の色
-            labelStyle: TextStyle(fontSize: 16.0),//選択されているフォントサイズ
+            labelStyle: const TextStyle(fontSize: 16.0),//選択されているフォントサイズ
             indicatorColor: Colors.blue,//インディケーターの色
             indicatorWeight: 3.0,//インディケーターの太さ
             ///タブに表示する内容
@@ -63,31 +65,29 @@ class MyStatelessWidget extends StatelessWidget {
         ),
         body: TabBarView(
           ///各内容のタブ
-          children: <Widget>[
+          children: [
             Center(
-              child: Column(
-                children: [
-                  Text("全てのIssueを表示する"),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: issueContainer(),
-                  ),
-                ],
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: 50,
+                itemBuilder: (BuildContext context, int index) {
+                  return IssuePage();
+                },
               ),
             ),
-            Center(
+            const Center(
               child: Text("p: webviewラベルの付いたIssueを表示する"),
             ),
-            Center(
+            const Center(
               child: Text("p: shared_preferencesラベルの付いたIssueを表示する"),
             ),
-            Center(
+            const Center(
               child: Text("waiting for customer responseラベルの付いたIssueを表示する"),
             ),
-            Center(
+            const Center(
               child: Text("severe: new featureラベルの付いたIssueを表示する"),
             ),
-            Center(
+            const Center(
               child: Text("severe: new featureラベルの付いたIssueを表示する"),
             ),
           ],
@@ -96,51 +96,64 @@ class MyStatelessWidget extends StatelessWidget {
     );
   }
 
-  ///issue一個分
-  Container issueContainer() {
-    return Container(
-      child: Container(
-        alignment: Alignment.topLeft,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text('No'),
-                  Text(issue.code),
-                  Icon(Icons.comment),
-                  Text(issue.coment),
-                ],
-              ),
-              Row(
-                children: [
-                  Icon(Icons.info),
-                  Text(issue.title),
-                ],
-              ),
 
-              Container(
-                  width: double.infinity,
-                  height: 70.0,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent.withOpacity(0.3),
-                    border: Border.all(color: Colors.blue),
-                  ),
-                  child: Text(issue.text)
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                  child: Text(issue.date),
-              ),
-            ],
-          )
-      ),
-      width: double.infinity,
-      height: 150.0,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.green),
-    ),
 
+
+}
+
+class IssuePage extends  StatelessWidget {//継承
+  IssuePage({Key? key}) : super(key: key);
+  final Issue issue = Issue('#0000', '0', 'Title', 'Text', 'Date');
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: DecoratedBox(
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const Text('No'),
+                        Text(issue.code),
+                        const Icon(Icons.comment),
+                        Text(issue.comment),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.info),
+                        Text(issue.title),
+                      ],
+                    ),
+
+                    DecoratedBox(
+
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent.withOpacity(0.3),
+                          border: Border.all(color: Colors.blue),
+                        ),
+                        child: Text(issue.text)
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(issue.date),
+                    ),
+                  ],
+                )
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.green),
+            ),
+
+          ),
+        ),
+      ],
     );
   }
 }
@@ -150,6 +163,12 @@ class MyStatelessWidget extends StatelessWidget {
 //todo gitと連携する
 //todo Tabを6つ作る
 //todo Tabbarの作成
+//todo Dart Analysis のエラー解消
+
+//APi通信　Httpリクエスト
 
 // ? スクロールできるTabBarとアイコンボタンの並列配置
 // ? クラスの引継ぎ方がわからない
+
+//ウィジェットは変数にしない
+//StaelessWidgetの変数にはfinalをつける。
