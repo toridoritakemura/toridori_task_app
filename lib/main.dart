@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'model.dart';
 
 void main() {
+
   runApp(const MyApp());
 }
+Issue issue = Issue('#0000', '', '', '', '');
 
 
 /// This is the main application widget.
@@ -68,18 +71,7 @@ class MyStatelessWidget extends StatelessWidget {
                   Text("全てのIssueを表示する"),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
-
-                    child: Container(
-                      child: Text('Text'),
-                      width: double.infinity,
-                      height: 100.0,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      border: Border.all(color: Colors.green),
-                    ),
-
-
-                    ),
+                    child: issueContainer(),
                   ),
                 ],
               ),
@@ -104,10 +96,50 @@ class MyStatelessWidget extends StatelessWidget {
       ),
     );
   }
+
+  ///issue一個分
+  Container issueContainer() {
+    return Container(
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text('No'),
+                                Text(issue.code),
+                                Icon(Icons.comment),
+                                Text(issue.coment),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(Icons.info),
+                                Text(issue.code),
+                              ],
+                            ),
+
+                            Text('質問文'),
+                            Text('投稿時間'),
+                          ],
+                        )
+                    ),
+                    width: double.infinity,
+                    height: 100.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    border: Border.all(color: Colors.green),
+                  ),
+
+                  );
+  }
 }
 
 
 
 //todo gitと連携する
 //todo Tabを6つ作る
+//todo Tabbarの作成
+
 // ? スクロールできるTabBarとアイコンボタンの並列配置
+// ? クラスの引継ぎ方がわからない
