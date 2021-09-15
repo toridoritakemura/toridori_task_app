@@ -63,7 +63,26 @@ class MyStatelessWidget extends StatelessWidget {
           ///各内容のタブ
           children: <Widget>[
             Center(
-              child: Text("全てのIssueを表示する"),
+              child: Column(
+                children: [
+                  Text("全てのIssueを表示する"),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+
+                    child: Container(
+                      child: Text('Text'),
+                      width: double.infinity,
+                      height: 100.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      border: Border.all(color: Colors.green),
+                    ),
+
+
+                    ),
+                  ),
+                ],
+              ),
             ),
             Center(
               child: Text("p: webviewラベルの付いたIssueを表示する"),
