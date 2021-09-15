@@ -4,50 +4,44 @@ void main() {
   runApp(const MyApp());
 }
 
+
+/// This is the main application widget.
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  static const String _title = 'Flutter Code Sample';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: _title,
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyStatelessWidget(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+const List<Tab> tabs = <Tab>[
+  Tab(text: '全て',),
+  Tab(text: 'p: webview',),
+  Tab(text: 'p: shared_preferences',),
+  Tab(text: 'waiting for customer response',),
+  Tab(text: 'severe: new feature',),
+  Tab(text: 'p: share',),
+];
 
-  final String title;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  List<String> titleList = ["amazon"," 楽天","Yhoo"];
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
-  }
+class MyStatelessWidget extends StatelessWidget {
+  const MyStatelessWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 1,
-      length: 6,//タブの数
+      length: tabs.length,//タブの数
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -60,28 +54,9 @@ class _MyHomePageState extends State<MyHomePage> {
             labelStyle: TextStyle(fontSize: 16.0),//選択されているフォントサイズ
             indicatorColor: Colors.blue,//インディケーターの色
             indicatorWeight: 3.0,//インディケーターの太さ
-            ///タブに表示する内容
-            tabs: <Widget>[
-              Tab(
-                text: '全て',
-              ),
-              Tab(
-                text: 'p: webview',
-              ),
-              Tab(
-                text: 'p: shared_preferences',
-              ),
-              Tab(
-                text: 'waiting for customer response',
-              ),
-              Tab(
-                text: 'severe: new feature',
-              ),
-              Tab(
-                text: 'p: share',
-              ),
 
-            ],
+            ///タブに表示する内容
+            tabs: tabs,
           ),
         ),
         body: TabBarView(
@@ -114,6 +89,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-
 //todo gitと連携する
 //todo Tabを6つ作る
+// ? スクロールできるTabBarとアイコンボタンの並列配置
