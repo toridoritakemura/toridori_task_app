@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Issue {
   ///プロパティ
   final String issue_number;//No.
@@ -9,7 +7,13 @@ class Issue {
   final String date;//日付
 
   ///コンストラクタ
-  Issue(this.issue_number, this.comment, this.title, this.text, this.date,);
+  Issue(
+      this.issue_number,
+      this.comment,
+      this.title,
+      this.text,
+      this.date,
+      );
 
   Issue.fromJson(Map<String, dynamic> json)
       : issue_number = json['issue_number'],
