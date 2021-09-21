@@ -1,27 +1,48 @@
+import 'package:toridori_task_app/View/home.dart';
+import 'dart:async'; //非同期処理用
+import 'dart:convert';
+import 'package:http/http.dart' ;
+
+
 class Issue {
   ///プロパティ
-  final String issue_number;//No.
-  final String comment;//コメント
+  final int number;//No.
+  final int comments;//コメント数
   final String title;//タイトル
-  final String text;//質問分
-  final String date;//日付
+  final String body;//質問分
+  final String since;//日付
 
   ///コンストラクタ
-  Issue(
-      this.issue_number,
-      this.comment,
-      this.title,
-      this.text,
-      this.date,
+  Issue({
+    required this.number,
+    required this.comments,
+    required this.title,
+    required this.body,
+    required this.since,
+  });
+
+
+  ///APIコール部分
+  static Future<List<Issue>> searchRepositories() async {
+    String url = 'https://api.github.com/repos/flutter/flutter/issues';
+    try{
+      var result = await get(Uri.parse(url));
+      Map<String,dynamic> data = jsonDecode(result.body);
+      print('data');
+      Issue issue = Issue(
+        number : data['number'],
+        comments: data['comments'],
+        title: data['title'],
+        body: data['body'],
+        since: data['created_at'],
       );
 
-  Issue.fromJson(Map<String, dynamic> json)
-      : issue_number = json['issue_number'],
-        comment = json['comment'],
-        title = json['title'],
-        text = json['text'],
-        date = json['date'];
+    }catch(e){
+      print(e);
+    }
 
+    return searchRepositories();
+  }
 
 }
 

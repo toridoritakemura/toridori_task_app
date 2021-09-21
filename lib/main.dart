@@ -1,17 +1,13 @@
 // ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/View/home.dart';
 import 'Model/model.dart';
 import 'View/test.dart';
-import 'dart:async'; //非同期処理用
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 
 void main() {
   runApp(const MyApp());
-  GithubClient()._searchRepositories('date').catchError((e)=>print(e));
+
 }
 
 class MyApp extends StatelessWidget {
@@ -45,8 +41,6 @@ const List<Tab> tabs = <Tab>[
 
 
 class MyStatelessWidget extends StatelessWidget {
-  final Issue issue = Issue('#0000', '0', 'Title', 'Text', 'Date');
-
   MyStatelessWidget({Key? key}) : super(key: key);
 
   @override
@@ -55,31 +49,6 @@ class MyStatelessWidget extends StatelessWidget {
   }
 
 }
-
-
-
-///APIコール部分
-class GithubClient {
-  Future<List<Issue>> _searchRepositories(String searchWord) async {
-    print('test');
-    final response = await http.get(Uri.parse('https://github.com/flutter/flutter/issues'));
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      List<Issue> list = [];
-      Map<String, dynamic> decoded = json.decode(response.body);
-      for (var item in decoded['items']) {
-        list.add(Issue.fromJson(item));
-      }
-      print(list.length);
-      return list;
-    } else {
-      throw Exception('Fail to search repository');
-    }
-  }
-}
-
-
-
 
 
 //todo gitと連携する
