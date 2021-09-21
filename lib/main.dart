@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:toridori_task_app/View/home.dart';
 import 'Model/model.dart';
 import 'View/test.dart';
+import 'package:toridori_task_app/Model/model.dart';
+import 'dart:async'; //非同期処理用
+import 'dart:convert';
+import 'package:http/http.dart' ;
 
 
 void main() {
   runApp(const MyApp());
 
+
+
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -47,6 +54,10 @@ class MyStatelessWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return HomePage();
   }
+
+}
+
+class GitRepository {
 
 }
 

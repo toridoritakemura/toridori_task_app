@@ -6,11 +6,11 @@ import 'package:http/http.dart' ;
 
 class Issue {
   ///プロパティ
-  final int number;//No.
-  final int comments;//コメント数
-  final String title;//タイトル
-  final String body;//質問分
-  final String since;//日付
+  int number;//No.
+  int comments;//コメント数
+  String title;//タイトル
+  String body;//質問分
+  String since;//日付
 
   ///コンストラクタ
   Issue({
@@ -21,14 +21,12 @@ class Issue {
     required this.since,
   });
 
-
   ///APIコール部分
-  static Future<List<Issue>> searchRepositories() async {
-    String url = 'https://api.github.com/repos/flutter/flutter/issues';
+  static Future<Issue> searchRepositories() async {
+    String url = 'https://api.github.com/repos/flutter/flutter/issues/42';
     try{
       var result = await get(Uri.parse(url));
       Map<String,dynamic> data = jsonDecode(result.body);
-      print('data');
       Issue issue = Issue(
         number : data['number'],
         comments: data['comments'],
@@ -36,15 +34,25 @@ class Issue {
         body: data['body'],
         since: data['created_at'],
       );
+        print(data);
+      return issue;
 
     }catch(e){
+
       print(e);
+      rethrow;
+
+
     }
 
-    return searchRepositories();
   }
 
+
+
 }
+
+
+
 
 
 
