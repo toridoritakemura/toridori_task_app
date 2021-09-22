@@ -7,11 +7,11 @@ import 'package:toridori_task_app/main.dart';
 
 class Issue {
   ///プロパティ
-  int number;//No.
-  int comments;//コメント数
-  String title;//タイトル
-  String body;//質問分
-  String since;//日付
+  final int? number;//No.
+  final int? comments;//コメント数
+  final String? title;//タイトル
+  final String? body;//質問分
+  final String? since;//日付
 
   ///コンストラクタ
   Issue({
@@ -29,13 +29,13 @@ class Issue {
       final result = await get(Uri.parse(url));
       final data = jsonDecode(result.body);
       final issue = Issue(
-        number : data['number'],
+        number : data['number']?? 0,
         comments: data['comments'],
         title: data['title'],
         body: data['body'],
         since: data['created_at'],
       );
-      print(data);
+      print(issue);
 
       return issue;
 
@@ -47,25 +47,28 @@ class Issue {
 
   }
 
-  ///Issue1個分APIコール部分
+  ///IssueListのAPIコール部分
   static Future<List<Issue>> getIssueListAPI() async {
     String url = 'https://api.github.com/repos/flutter/flutter/issues';
     try{
+
       final result = await get(Uri.parse(url));
       final data = jsonDecode(result.body);
       final issuesListData = data ;
 
-      final issuesList = issuesListData.map((issue){
-        return Issue (
-          number : data['number'],
-          comments: data['comments'],
-          title: data['title'],
-          body: data['body'],
-          since: data['created_at'],
-        );
 
+      final issuesList = issuesListData.map<Issue>((data){
+        return Issue (
+          number : data['number'] ?? 0,
+          comments: data['comments'] ?? 0,
+          title: data['title'] ?? 'no title',
+          body: data['body' ] ?? 'no body',
+          since: data['created_at'] ?? 'no since',
+        );
       }).toList();
+      print(issuesList);
       return issuesList;
+
     }catch(e){
 
       print(e);

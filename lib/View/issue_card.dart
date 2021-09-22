@@ -2,111 +2,137 @@ import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/model.dart';
 import 'package:toridori_task_app/main.dart';
 
+//providor freez
+
 class IssuePage extends StatefulWidget {
   @override
   _IssuePage createState() => _IssuePage();
 }
 
+List<Issue> issueList = [
+  Issue(number: 1, comments: 0, title: 'タイトル1', body: '質問1', since: '時刻'),
+  Issue(number: 1, comments: 0, title: 'タイトル1', body: '質問1', since: '時刻'),
+];
+
+Issue issue = Issue(number: 0, comments: 0, title: 'タ˚イトル', body: '質問', since: '時刻');
+
+
 ///Issueリスト
 class _IssuePage extends  State<IssuePage>{
   List<Issue> issueList = [
-    Issue(number: 1, comments: 0, title: 'タイトル1', body: '質問1', since: '時刻'),
+    Issue(number: 1, comments: 0, title: 'タイトル1', body: '質問1', since: '時刻1'),
+    Issue(number: 2, comments: 1, title: 'タイトル2', body: '質問2', since: '時刻2'),
   ];
 
   @override
   Widget build(BuildContext context) {
 
     return Center(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: issueList.map((issue) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: DecoratedBox(
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Row(
+
+        child:
+            SingleChildScrollView(
+              child: Column(
+                children: issueList.map((item) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Card(
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                const Text('No'),
-                                Text(issue.number.toString()),
-                                const Icon(Icons.comment),
-                                Text(issue.comments.toString()),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Icons.info_outline, color: Colors.green,),
-                                Text(issue.title,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  overflow: TextOverflow.ellipsis, //反応しない
-
-
+                                Row(
+                                  children: [
+                                    const Text('No'),
+                                    Text(item.number.toString()),
+                                    const Icon(Icons.comment),
+                                    Text(item.comments.toString()),
+                                  ],
                                 ),
-                              ],
-                            ),
-
-                            DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: Colors.blueAccent.withOpacity(0.3),
-                                  border: Border.all(color: Colors.blue),
-                                ),
-                                child: Text(issue.body)
-                            ),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Row(
-                                children: [
-                                  Text(issue.since),
-                                  const Spacer(),
-                                  OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      side: const BorderSide(color: Colors.black45,),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.info_outline,
+                                      color: Colors.green,
+                                      size: 30,
                                     ),
-                                    child: const Text(
-                                      'view full isue',
-                                      style: TextStyle(
-                                        color: Colors.black45,
+
+                                    Flexible(
+                                      child: Text(item.title ?? 'ー',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow.fade,
                                       ),
                                     ),
-                                    onPressed: ()  async{
+                                  ],
+                                ),
 
-                                      setState(() {
-                                        Issue.getIssueListAPI();
+                                DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueAccent.withOpacity(0.3),
+                                    ),
+                                    child: Text(item.body ?? '-',
+                                      style: TextStyle(
+
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 4,
+
+                                    )
+                                ),
+
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Row(
+                                    children: [
+                                      Text(item.since ?? ''),
+                                      const Spacer(),
+                                      OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                          side: const BorderSide(color: Colors.black45,),
+                                        ),
+                                        child: const Text(
+                                          'view full issue',
+                                          style: TextStyle(
+                                            color: Colors.black45,
+                                          ),
+                                        ),
+                                        onPressed: ()  async{
+                                          issueList = await Issue.getIssueListAPI();
+
+                                          setState(() {
 
 
-                                      });
-
-                                    },
-
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
-
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.green),
-                      ),
+                          ),
 
+
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              );
-            }).toList(),
-          ),
-        )
+                  );
+
+                }).toList(),
+
+
+              ),
+
+            ),
+
+
     );
+
   }
 }
 
@@ -134,7 +160,7 @@ class _OneIssue extends State<OneIssue> {
               Row(
                 children: [
                   const Text('No'),
-                  Text(issue == null ? '-':issue.number.toString()),
+                  Text(issue.number.toString()),
                   const Icon(Icons.comment),
                   Text(issue.comments.toString()),
                 ],
@@ -148,7 +174,7 @@ class _OneIssue extends State<OneIssue> {
                   ),
 
                   Flexible(
-                    child: Text(issue.title,
+                    child: Text(issue.title ?? 'ー',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -163,7 +189,7 @@ class _OneIssue extends State<OneIssue> {
                   decoration: BoxDecoration(
                     color: Colors.blueAccent.withOpacity(0.3),
                   ),
-                  child: Text(issue.body,
+                  child: Text(issue.body ?? '-',
                     style: TextStyle(
 
                     ),
@@ -177,7 +203,7 @@ class _OneIssue extends State<OneIssue> {
                 alignment: Alignment.bottomLeft,
                 child: Row(
                   children: [
-                    Text(issue == null ? '-':issue.since),
+                    Text(issue.since ?? ''),
                     const Spacer(),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(
@@ -191,6 +217,7 @@ class _OneIssue extends State<OneIssue> {
                       ),
                       onPressed: ()  async{
                         issue = await Issue.searchRepositories();
+
                         setState(() {
                                 });
                         },

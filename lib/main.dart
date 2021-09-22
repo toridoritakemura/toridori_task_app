@@ -44,7 +44,6 @@ const List<Tab> tabs = <Tab>[
   Tab(text: 'p: share',),
 ];
 
-Issue issue = Issue(number: 0, comments: 0, title: 'タイトル', body: '質問', since: '時刻');
 
 
 
