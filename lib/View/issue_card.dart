@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/model.dart';
+import 'package:toridori_task_app/main.dart';
 
 class IssuePage extends StatefulWidget {
   @override
   _IssuePage createState() => _IssuePage();
-
-
-
 }
 
 ///Issueリスト
@@ -43,11 +41,15 @@ class _IssuePage extends  State<IssuePage>{
                             ),
                             Row(
                               children: [
-                                const Icon(
-                                  Icons.info_outline,
-                                  color: Colors.green,
+                                const Icon(Icons.info_outline, color: Colors.green,),
+                                Text(issue.title,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis, //反応しない
+
+
                                 ),
-                                Text(issue.title),
                               ],
                             ),
 
@@ -77,7 +79,9 @@ class _IssuePage extends  State<IssuePage>{
                                     onPressed: ()  async{
 
                                       setState(() {
-                                        Issue.searchRepositories();
+                                        Issue.getIssueListAPI();
+
+
                                       });
 
                                     },
@@ -110,96 +114,103 @@ class OneIssue extends StatefulWidget {
   @override
   _OneIssue createState() => _OneIssue();
 
-
-
-
-
 }
 
+
 class _OneIssue extends State<OneIssue> {
-  Issue issue = Issue(number: 0, comments: 0, title: 'タイトル', body: '質問', since: '時刻');
+  
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: DecoratedBox(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Card(
+        child: Column(
+          children: [
+            Align(
+          alignment: Alignment.topLeft,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      const Text('No'),
-                      Text(issue == null ? '-':issue.number.toString()),
-                      const Icon(Icons.comment),
-                      Text(issue.comments.toString()),
-                    ],
+                  const Text('No'),
+                  Text(issue == null ? '-':issue.number.toString()),
+                  const Icon(Icons.comment),
+                  Text(issue.comments.toString()),
+                ],
+              ),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.info_outline,
+                    color: Colors.green,
+                    size: 30,
                   ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.info_outline,
-                        color: Colors.green,
+
+                  Flexible(
+                    child: Text(issue.title,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text(issue == null ? '-':issue.title),
-                    ],
-                  ),
-
-                  DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent.withOpacity(0.3),
-                        border: Border.all(color: Colors.blue),
-                      ),
-                      child: Text(issue == null ? '-':issue.body)
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Row(
-                      children: [
-                        Text(issue == null ? '-':issue.since),
-                        const Spacer(),
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.black45,),
-                          ),
-                          child: const Text(
-                            'view full isue',
-                            style: TextStyle(
-                              color: Colors.black45,
-                            ),
-                          ),
-                          onPressed: ()  async{
-                            issue = await Issue.searchRepositories();
-                            setState(() {
-
-                            });
-
-
-
-                          },
-
-                        ),
-
-                      ],
+                      overflow: TextOverflow.fade,
                     ),
                   ),
                 ],
               ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.green),
-            ),
 
+              DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent.withOpacity(0.3),
+                  ),
+                  child: Text(issue.body,
+                    style: TextStyle(
+
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 4,
+
+                  )
+              ),
+
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Row(
+                  children: [
+                    Text(issue == null ? '-':issue.since),
+                    const Spacer(),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.black45,),
+                      ),
+                      child: const Text(
+                        'view full isue',
+                        style: TextStyle(
+                          color: Colors.black45,
+                        ),
+                      ),
+                      onPressed: ()  async{
+                        issue = await Issue.searchRepositories();
+                        setState(() {
+                                });
+                        },
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-      ],
+
+
+        ],
+        ),
+      ),
     );
 
   }
 
 }
+
+
 

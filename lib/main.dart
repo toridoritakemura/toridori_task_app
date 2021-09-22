@@ -12,8 +12,6 @@ import 'package:http/http.dart' ;
 void main() {
   runApp(const MyApp());
 
-
-
 }
 
 
@@ -46,6 +44,9 @@ const List<Tab> tabs = <Tab>[
   Tab(text: 'p: share',),
 ];
 
+Issue issue = Issue(number: 0, comments: 0, title: 'タイトル', body: '質問', since: '時刻');
+
+
 
 class MyStatelessWidget extends StatelessWidget {
   MyStatelessWidget({Key? key}) : super(key: key);
@@ -57,9 +58,6 @@ class MyStatelessWidget extends StatelessWidget {
 
 }
 
-class GitRepository {
-
-}
 
 
 //todo gitと連携する

@@ -11,8 +11,18 @@ class HomePage extends StatefulWidget {
 
 }
 
+
 ///全体ページ
 class _HomePageState extends State<HomePage> {
+  void _getRepository() {
+
+
+    setState(() async{
+      issue = await Issue.searchRepositories();
+
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +46,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: TabBarView(
+
           ///各内容のタブ
           children: [
             OneIssue(),
