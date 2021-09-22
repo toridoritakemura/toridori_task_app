@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/model.dart';
-import 'package:toridori_task_app/main.dart';
 
 //providor freez
 
 class IssuePage extends StatefulWidget {
+  const IssuePage({ Key? key }) : super(key: key);
   @override
   _IssuePage createState() => _IssuePage();
 }
@@ -61,7 +61,8 @@ class _IssuePage extends  State<IssuePage>{
 
                                     Flexible(
                                       child: Text(item.title ?? 'ー',
-                                        style: TextStyle(
+                                        style:
+                                        const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -76,7 +77,8 @@ class _IssuePage extends  State<IssuePage>{
                                       color: Colors.blueAccent.withOpacity(0.3),
                                     ),
                                     child: Text(item.body ?? '-',
-                                      style: TextStyle(
+                                      style:
+                                      const TextStyle(
 
                                       ),
                                       overflow: TextOverflow.ellipsis,
@@ -137,6 +139,8 @@ class _IssuePage extends  State<IssuePage>{
 }
 
 class OneIssue extends StatefulWidget {
+
+  const OneIssue({ Key? key }) : super(key: key);
   @override
   _OneIssue createState() => _OneIssue();
 
@@ -175,7 +179,8 @@ class _OneIssue extends State<OneIssue> {
 
                   Flexible(
                     child: Text(issue.title ?? 'ー',
-                      style: TextStyle(
+                      style:
+                      const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -190,7 +195,8 @@ class _OneIssue extends State<OneIssue> {
                     color: Colors.blueAccent.withOpacity(0.3),
                   ),
                   child: Text(issue.body ?? '-',
-                    style: TextStyle(
+                    style:
+                    const TextStyle(
 
                     ),
                     overflow: TextOverflow.ellipsis,

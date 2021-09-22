@@ -1,13 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/View/home.dart';
-import 'Model/model.dart';
-import 'View/test.dart';
-import 'package:toridori_task_app/Model/model.dart';
-import 'dart:async'; //非同期処理用
-import 'dart:convert';
-import 'package:http/http.dart' ;
-
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +22,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: MyStatelessWidget(),//home.dart
+      home: const MyStatelessWidget(),//home.dart
     );
   }
 }
@@ -48,11 +41,11 @@ const List<Tab> tabs = <Tab>[
 
 
 class MyStatelessWidget extends StatelessWidget {
-  MyStatelessWidget({Key? key}) : super(key: key);
+  const MyStatelessWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return HomePage();
+    return const HomePage();
   }
 
 }

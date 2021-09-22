@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:toridori_task_app/Model/model.dart';
 import 'package:toridori_task_app/View/issue_card.dart';
 import 'package:toridori_task_app/main.dart';
 
+
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 
@@ -14,16 +16,6 @@ class HomePage extends StatefulWidget {
 
 ///全体ページ
 class _HomePageState extends State<HomePage> {
-  void _getRepository() {
-
-
-    setState(() async{
-      issue = await Issue.searchRepositories();
-
-
-    });
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +38,7 @@ class _HomePageState extends State<HomePage> {
             tabs: tabs,
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
 
           ///各内容のタブ
           children: [

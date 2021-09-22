@@ -2,7 +2,7 @@
 import 'dart:async'; //非同期処理用
 import 'dart:convert';
 import 'package:http/http.dart' ;
-import 'package:toridori_task_app/main.dart';
+
 
 
 class Issue {
@@ -35,13 +35,13 @@ class Issue {
         body: data['body'],
         since: data['created_at'],
       );
-      print(issue);
+
 
       return issue;
 
     }catch(e){
 
-      print(e);
+
       rethrow;
     }
 
@@ -66,12 +66,11 @@ class Issue {
           since: data['created_at'] ?? 'no since',
         );
       }).toList();
-      print(issuesList);
+
       return issuesList;
 
     }catch(e){
 
-      print(e);
       rethrow;
     }
   }
