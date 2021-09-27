@@ -5,6 +5,7 @@ import 'package:http/http.dart' ;
 
 
 
+
 class Issue {
   ///プロパティ
   final int? number;//No.
@@ -41,7 +42,6 @@ class Issue {
 
     }catch(e){
 
-
       rethrow;
     }
 
@@ -75,14 +75,3 @@ class Issue {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-

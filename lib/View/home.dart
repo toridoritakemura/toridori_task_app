@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:toridori_task_app/View/issue_card.dart';
-import 'package:toridori_task_app/main.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -9,9 +10,18 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 
-
-
 }
+
+///タブリスト
+const List<Tab> tabs = <Tab>[
+  Tab(text: '全て',),
+  Tab(text: 'p: webview',),
+  Tab(text: 'p: shared_preferences',),
+  Tab(text: 'waiting for customer response',),
+  Tab(text: 'severe: new feature',),
+  Tab(text: 'p: share',),
+];
+
 
 
 ///全体ページ
@@ -43,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           ///各内容のタブ
           children: [
             OneIssue(),
-            IssuePage(),
+            OneIssue(),
             IssuePage(),
             IssuePage(),
             IssuePage(),

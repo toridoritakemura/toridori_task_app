@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/View/home.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'Model/model.dart';
+import 'View/issue_card.dart';
 
+void main() {
+
+  runApp(const MyApp());
 }
 
 
@@ -27,25 +30,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
-///タブリスト
-const List<Tab> tabs = <Tab>[
-  Tab(text: '全て',),
-  Tab(text: 'p: webview',),
-  Tab(text: 'p: shared_preferences',),
-  Tab(text: 'waiting for customer response',),
-  Tab(text: 'severe: new feature',),
-  Tab(text: 'p: share',),
-];
-
-
-
-
-class MyStatelessWidget extends StatelessWidget {
+class MyStatelessWidget extends StatefulWidget {
   const MyStatelessWidget({Key? key}) : super(key: key);
+
+
+
+  @override
+  State<MyStatelessWidget> createState() => _MyStatelessWidget();
+}
+
+class _MyStatelessWidget extends State<MyStatelessWidget> {
+
+  //API呼び出し
+  Future getAPI() async{
+    issue = await Issue.searchRepositories();
+    apiList = await Issue.getIssueListAPI();//APIデータ入れ込み
+  }
+
+  @override
+  void initState() {
+    //アプリ起動時に一度だけ実行する
+    super.initState();
+    setState(() {
+      getAPI();
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return const HomePage();
+
   }
 
 }
