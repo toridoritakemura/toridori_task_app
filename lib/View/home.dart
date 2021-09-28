@@ -48,20 +48,22 @@ class _HomePageState extends State<HomePage> {
             tabs: tabs,
           ),
         ),
-        body: const TabBarView(
+        body: const Center(
+          child:  TabBarView(
 
-          ///各内容のタブ
-          children: [
-            OneIssue(),
-            OneIssue(),
-            IssuePage(),
-            IssuePage(),
-            IssuePage(),
-            IssuePage(),
+            ///各内容のタブ
+            children: [
+              OneIssue(),
+              IssuePage(),
+              IssuePage(),
+              IssuePage(),
+              IssuePage(),
+              IssuePage(),
 
 
-          ],
+            ],
 
+          ),
         ),
       ),
     );

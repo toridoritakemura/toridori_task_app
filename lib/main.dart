@@ -5,8 +5,7 @@ import 'package:toridori_task_app/View/home.dart';
 import 'Model/model.dart';
 import 'View/issue_card.dart';
 
-void main() {
-
+void main() async{
   runApp(const MyApp());
 }
 
@@ -39,23 +38,23 @@ class MyStatelessWidget extends StatefulWidget {
   State<MyStatelessWidget> createState() => _MyStatelessWidget();
 }
 
+
+//API呼び出し
+Future getOneAPI() async{
+  issue =  await searchRepositories();
+
+  
+}
+
+//API呼び出し
+Future getListAPI() async{
+//  issue =  await Issue.searchRepositories();
+  apiList = await getIssueListAPI();//APIデータ入れ込み
+
+}
+
+
 class _MyStatelessWidget extends State<MyStatelessWidget> {
-
-  //API呼び出し
-  Future getAPI() async{
-    issue = await Issue.searchRepositories();
-    apiList = await Issue.getIssueListAPI();//APIデータ入れ込み
-  }
-
-  @override
-  void initState() {
-    //アプリ起動時に一度だけ実行する
-    super.initState();
-    setState(() {
-      getAPI();
-    });
-
-  }
 
   @override
   Widget build(BuildContext context) {
