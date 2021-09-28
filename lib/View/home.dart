@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:toridori_task_app/View/issue_card.dart';
+import 'package:toridori_task_app/View/one_issue_card.dart';
+import 'package:toridori_task_app/View/list_issue_card.dart';
 
 
 
@@ -53,12 +54,12 @@ class _HomePageState extends State<HomePage> {
 
             ///各内容のタブ
             children: [
-              OneIssue(),
-              IssuePage(),
-              IssuePage(),
-              IssuePage(),
-              IssuePage(),
-              IssuePage(),
+              OneIssuePage(),
+              IssueListPage(),
+              IssueListPage(),
+              IssueListPage(),
+              IssueListPage(),
+              IssueListPage(),
 
 
             ],

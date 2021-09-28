@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/View/home.dart';
 
-import 'Model/model.dart';
-import 'View/issue_card.dart';
+
+
 
 void main() async{
   runApp(const MyApp());
@@ -37,22 +37,6 @@ class MyStatelessWidget extends StatefulWidget {
   @override
   State<MyStatelessWidget> createState() => _MyStatelessWidget();
 }
-
-
-//API呼び出し
-Future getOneAPI() async{
-  issue =  await searchRepositories();
-
-  
-}
-
-//API呼び出し
-Future getListAPI() async{
-//  issue =  await Issue.searchRepositories();
-  apiList = await getIssueListAPI();//APIデータ入れ込み
-
-}
-
 
 class _MyStatelessWidget extends State<MyStatelessWidget> {
 
