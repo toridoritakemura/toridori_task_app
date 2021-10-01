@@ -1,36 +1,48 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
+import 'package:toridori_task_app/Model/label_model.dart';
 
 
 
-
-///IssueListページ
 class IssueListPage extends StatefulWidget {
   const IssueListPage({ Key? key }) : super(key: key);
   @override
   _IssueListPage createState() => _IssueListPage();
 }
 
-///ListのIssueAPI呼び出し
-Future getListAPI() async{
-//  issue =  await Issue.searchRepositories();
-  apiList = await getIssueListAPI();//APIデータ入れ込み
+
+///label　呼び出し
+Future getLabelList() async{
+  labelsList =  await getLabelAPI();
 
 }
-
+///IssueListページ
 class _IssueListPage extends  State<IssueListPage>{
+
+  late Future <List<Issue>> futureListIssue;
+
+  @override
+  void initState() {
+    super.initState();
+    futureListIssue = fetchListIssue();
+  }
+
 
   @override
   Widget build(BuildContext context) {
 
     return Center(
-      child: FutureBuilder(
-          future: getListAPI(),
+      child: FutureBuilder <List<Issue>>(
+          future: futureListIssue,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: apiList.map((item) {
+              List<Issue> issues = snapshot.data;
+              return Center(
+                child: ListView.builder(
+                  itemCount: issues.length,
+                  itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Card(
@@ -44,9 +56,37 @@ class _IssueListPage extends  State<IssueListPage>{
                                   Row(
                                     children: [
                                       const Text('No'),
-                                      Text(item.number.toString()),
+                                      Text(issues[index].number.toString()),
                                       const Icon(Icons.comment),
-                                      Text(item.comments.toString()),
+                                      Text(issues[index].comments.toString()),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child:FutureBuilder(
+                                            future: getLabelAPI(),
+                                            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                              return Row(
+                                                children: labelsList.map((item) {
+                                                  return Card(
+                                                    child: Row(
+                                                      children: [
+                                                        DecoratedBox(
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.blue,
+                                                            border: Border.all(color: Colors.blue),
+                                                          ),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(3.0),
+                                                            child: Text((item.name == 'p: webview' ? item.name : null) ?? '',),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                              );
+                                            }
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   Row(
@@ -58,7 +98,7 @@ class _IssueListPage extends  State<IssueListPage>{
                                       ),
 
                                       Flexible(
-                                        child: Text(item.title ?? 'ー',
+                                        child: Text(issues[index].title ?? 'ー',
                                           style:
                                           const TextStyle(
                                             fontSize: 20,
@@ -76,7 +116,7 @@ class _IssueListPage extends  State<IssueListPage>{
                                       decoration: BoxDecoration(
                                         color: Colors.blueAccent.withOpacity(0.3),
                                       ),
-                                      child: Text(item.body ?? '-',
+                                      child: Text(issues[index].body ?? '-',
                                         style:
                                         const TextStyle(
 
@@ -91,7 +131,7 @@ class _IssueListPage extends  State<IssueListPage>{
                                     alignment: Alignment.bottomLeft,
                                     child: Row(
                                       children: [
-                                        Text(item.since ?? ''),
+                                        Text(issues[index].since ?? ''),
                                         const Spacer(),
                                         OutlinedButton(
                                           style: OutlinedButton.styleFrom(
@@ -103,8 +143,9 @@ class _IssueListPage extends  State<IssueListPage>{
                                               color: Colors.black45,
                                             ),
                                           ),
-                                          onPressed: ()  async{
-                                            apiList = await getIssueListAPI();//APIデータ入れ込み
+                                          onPressed: (){
+
+
                                             setState(() {
 
                                             });
@@ -121,7 +162,7 @@ class _IssueListPage extends  State<IssueListPage>{
                         ),
                       ),
                     );
-                  }).toList(),
+              },
                 ),
               );
             } else {

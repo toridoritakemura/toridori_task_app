@@ -32,8 +32,6 @@ class MyApp extends StatelessWidget {
 class MyStatelessWidget extends StatefulWidget {
   const MyStatelessWidget({Key? key}) : super(key: key);
 
-
-
   @override
   State<MyStatelessWidget> createState() => _MyStatelessWidget();
 }
