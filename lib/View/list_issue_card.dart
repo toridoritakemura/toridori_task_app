@@ -13,21 +13,18 @@ class IssueListPage extends StatefulWidget {
 }
 
 
-///label　呼び出し
-Future getLabelList() async{
-  labelsList =  await getLabelAPI();
 
-
-}
 ///IssueListページ
 class _IssueListPage extends  State<IssueListPage>{
 
   late Future <List<Issue>> futureListIssue;
+  late Future<List<LabelName>> futureOneLabel;
 
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchListIssue();
+    futureListIssue = fetchAllIssue();
+    futureOneLabel = fetchOneLabels();
   }
 
 
@@ -48,41 +45,16 @@ class _IssueListPage extends  State<IssueListPage>{
                       child: Card(
                         child: Column(
                                 children: [
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      children: [
-                                        const Text('No'),
-                                        Text(issues[index].number.toString()),
-                                        const Icon(Icons.comment),
-                                        Text(issues[index].comments.toString()),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child:FutureBuilder(
-                                              future: getLabelList(),
-                                              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                                return Row(
-                                                  children: labelsList.map((item) {
-                                                    return Row(
-                                                        children: [
-                                                          Padding(
-                                                              padding: const EdgeInsets.all(3.0),
-                                                              child: Text(item.name ?? '',
-                                                                style: const TextStyle(
-                                                                  backgroundColor: Colors.blue
-                                                                ),
-                                                              ),
-                                                            ),
-                                                        ],
-                                                      );
-                                                  }).toList(),
-                                                );
-                                              }
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  Row(
+                                    children: [
+                                      const Text('No'),
+                                      Text(issues[index].number.toString()),
+                                      const Icon(Icons.comment),
+                                      Text(issues[index].comments.toString()),
+
+                                    ],
                                   ),
+
                                   Row(
                                     children: [
                                       const Icon(

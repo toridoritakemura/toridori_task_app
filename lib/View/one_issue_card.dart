@@ -6,6 +6,11 @@ import 'package:toridori_task_app/Model/label_model.dart';
 
 
 
+List<Labels> labelsList = [
+  Labels(labels: [LabelName(name: 'label1-1'), LabelName(name: 'label1-2'),],),
+  Labels(labels: [LabelName(name: 'label2-1'), LabelName(name: 'label2-2'),],),
+
+];
 
 
 class OneIssuePage extends StatefulWidget {
@@ -15,27 +20,18 @@ class OneIssuePage extends StatefulWidget {
   _OneIssuePage createState() => _OneIssuePage();
 }
 
-
-
-
-///label　呼び出し
-Future getLabel() async{
-  labelsList =  await getLabelAPI();
-  print(labelsList);
-
-}
-
-
 ///一個分のIssueページ
 class _OneIssuePage extends State<OneIssuePage> {
   late Future<Issue> futureOneIssue;
   late Future<List<LabelName>> futureOneLabel;
+  late Future<List<Labels>> futureListLabel;
 
   @override
   void initState() {
     super.initState();
     futureOneIssue = fetchOneIssue();
-//    futureOneLabel = fetchListLabel();
+    futureOneLabel = fetchOneLabels();
+    futureListLabel = fetchListLabels();
   }
 
   @override
@@ -67,14 +63,17 @@ class _OneIssuePage extends State<OneIssuePage> {
                                 Padding(
                                     padding: const EdgeInsets.all(8.0),
                                   child:FutureBuilder(
-                                      future: getLabel(),
+                                      future: futureOneLabel,
                                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                        return Row(
-                                          children: labelsList.map((item) {
-                                            return Row(
+                                        if (snapshot.connectionState == ConnectionState.done) {
+                                          List<LabelName> labels = snapshot.data;
+                                          return  Row(
+                                            children: labels.map((item) {
+                                              return Row(
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.all(3.0),
+                                                    padding: const EdgeInsets
+                                                        .all(3.0),
                                                     child: Text(item.name ?? '',
                                                       style: const TextStyle(
                                                           backgroundColor: Colors.blue
@@ -83,10 +82,13 @@ class _OneIssuePage extends State<OneIssuePage> {
                                                   ),
                                                 ],
                                               );
-                                          }).toList(),
-                                        );
+                                            }).toList(),
+                                          );
+                                        } else {
+                                          return const CircularProgressIndicator();
+                                        }
                                       }
-                                  ),
+                                    ),
                                   ),
 
                                 ],),
@@ -145,8 +147,11 @@ class _OneIssuePage extends State<OneIssuePage> {
                                     ),
                                     onPressed: ()  async{
                                       futureOneIssue = fetchOneIssue();
-                                      futureOneLabel = fetchListLabel();
-                                      getLabel();
+
+                                      fetchListLabels();
+//                                      futureOneLabel = fetchOneLabels();
+
+
                                       setState(() {
 
                                       });
@@ -155,6 +160,42 @@ class _OneIssuePage extends State<OneIssuePage> {
                                   ),
                                 ],
                               ),
+                            ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child:FutureBuilder(
+                                        future: futureOneLabel,
+                                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                          if (snapshot.connectionState == ConnectionState.done) {
+                                            List<LabelName> labels = snapshot.data;
+                                            return  Row(
+                                              children: labels.map((item) {
+                                                return Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(3.0),
+                                                      child: Text(item.name ?? '',
+                                                        style: const TextStyle(
+                                                            backgroundColor: Colors.blue
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              }).toList(),
+                                            );
+                                          } else {
+                                            return const CircularProgressIndicator();
+                                          }
+                                        }
+                                    ),
+                                  ),
+
+                                ],),
                             ),
                           ],
                         ),

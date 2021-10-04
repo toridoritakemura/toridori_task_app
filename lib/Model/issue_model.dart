@@ -19,17 +19,16 @@ Future<Issue> fetchOneIssue() async {
     //JSONを解析。
     return Issue.fromJson(jsonDecode(response.body));
   } else {
-
     throw Exception('Failed to load album');
   }
 }
 
-///IssueのListのAPIコール部分
-Future<List<Issue>> fetchListIssue() async {
+///[全て]のIssue呼び出し
+Future<List<Issue>> fetchAllIssue() async {
 
     final response = await http.get(Uri.parse('https://api.github.com/repos/flutter/flutter/issues'),
       headers: {
-      HttpHeaders.authorizationHeader: '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',
+      HttpHeaders.authorizationHeader: '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',
       },
     );
 
@@ -39,6 +38,23 @@ Future<List<Issue>> fetchListIssue() async {
     } else {
       throw Exception('Unexpected error occured!');
     }
+}
+
+///[p: webview]のIssue呼び出し
+Future<List<Issue>> fetchWebViewIssue() async {
+
+  final response = await http.get(Uri.parse('https://api.github.com/repos/flutter/flutter/issues?labels=p: webview'),
+    headers: {
+      HttpHeaders.authorizationHeader: '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',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    List jsonResponse = json.decode(response.body);
+    return jsonResponse.map((data) => Issue.fromJson(data)).toList();
+  } else {
+    throw Exception('Unexpected error occured!');
+  }
 }
 
 
