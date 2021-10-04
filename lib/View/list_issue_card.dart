@@ -17,6 +17,7 @@ class IssueListPage extends StatefulWidget {
 Future getLabelList() async{
   labelsList =  await getLabelAPI();
 
+
 }
 ///IssueListページ
 class _IssueListPage extends  State<IssueListPage>{
@@ -39,55 +40,48 @@ class _IssueListPage extends  State<IssueListPage>{
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               List<Issue> issues = snapshot.data;
-              return Center(
-                child: ListView.builder(
+              return ListView.builder(
                   itemCount: issues.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Card(
                         child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Text('No'),
-                                      Text(issues[index].number.toString()),
-                                      const Icon(Icons.comment),
-                                      Text(issues[index].comments.toString()),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child:FutureBuilder(
-                                            future: getLabelAPI(),
-                                            builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                              return Row(
-                                                children: labelsList.map((item) {
-                                                  return Card(
-                                                    child: Row(
-                                                      children: [
-                                                        DecoratedBox(
-                                                          decoration: BoxDecoration(
-                                                            color: Colors.blue,
-                                                            border: Border.all(color: Colors.blue),
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(3.0),
-                                                            child: Text((item.name == 'p: webview' ? item.name : null) ?? '',),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                              );
-                                            }
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        const Text('No'),
+                                        Text(issues[index].number.toString()),
+                                        const Icon(Icons.comment),
+                                        Text(issues[index].comments.toString()),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child:FutureBuilder(
+                                              future: getLabelList(),
+                                              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                                return Row(
+                                                  children: labelsList.map((item) {
+                                                    return Row(
+                                                        children: [
+                                                          Padding(
+                                                              padding: const EdgeInsets.all(3.0),
+                                                              child: Text(item.name ?? '',
+                                                                style: const TextStyle(
+                                                                  backgroundColor: Colors.blue
+                                                                ),
+                                                              ),
+                                                            ),
+                                                        ],
+                                                      );
+                                                  }).toList(),
+                                                );
+                                              }
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                   Row(
                                     children: [
@@ -117,12 +111,8 @@ class _IssueListPage extends  State<IssueListPage>{
                                         color: Colors.blueAccent.withOpacity(0.3),
                                       ),
                                       child: Text(issues[index].body ?? '-',
-                                        style:
-                                        const TextStyle(
-
-                                        ),
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines: 4,
+                                        maxLines: 3,
 
                                       )
                                   ),
@@ -144,12 +134,8 @@ class _IssueListPage extends  State<IssueListPage>{
                                             ),
                                           ),
                                           onPressed: (){
-
-
                                             setState(() {
-
                                             });
-
                                           },
                                         ),
                                       ],
@@ -157,14 +143,10 @@ class _IssueListPage extends  State<IssueListPage>{
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
                       ),
                     );
               },
-                ),
-              );
+                );
             } else {
               return const CircularProgressIndicator();
             }

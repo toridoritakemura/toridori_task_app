@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> {
         ),
         body: const Center(
           child:  TabBarView(
-
             ///各内容のタブ
             children: [
               OneIssuePage(),
@@ -61,8 +60,7 @@ class _HomePageState extends State<HomePage> {
               IssueListPage(),
               IssueListPage(),
 
-
-            ],
+            ]
 
           ),
         ),

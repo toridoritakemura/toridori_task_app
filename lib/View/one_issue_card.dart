@@ -16,13 +16,12 @@ class OneIssuePage extends StatefulWidget {
 }
 
 
-///Issue（仮）
-Issue issue = Issue(number: 0, comments: 0, title: 'タイトル', body: '質問', since: '時刻');
 
 
 ///label　呼び出し
 Future getLabel() async{
   labelsList =  await getLabelAPI();
+  print(labelsList);
 
 }
 
@@ -30,11 +29,13 @@ Future getLabel() async{
 ///一個分のIssueページ
 class _OneIssuePage extends State<OneIssuePage> {
   late Future<Issue> futureOneIssue;
+  late Future<List<LabelName>> futureOneLabel;
 
   @override
   void initState() {
     super.initState();
     futureOneIssue = fetchOneIssue();
+//    futureOneLabel = fetchListLabel();
   }
 
   @override
@@ -55,42 +56,41 @@ class _OneIssuePage extends State<OneIssuePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Row(
-                              children: [
-                                const Text('No'),
-                                Text(snapshot.data.number.toString()),
-                                const Icon(Icons.comment),
-                                Text(snapshot.data.comments.toString()),
-                              Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  const Text('No'),
+                                  Text(snapshot.data.number.toString()),
+                                  const Icon(Icons.comment),
+                                  Text(snapshot.data.comments.toString()),
+                                Padding(
+                                    padding: const EdgeInsets.all(8.0),
                                   child:FutureBuilder(
                                       future: getLabel(),
                                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                      return Row(
-                                        children: labelsList.map((item) {
-                                          return Card(
-                                            child: Row(
-                                              children: [
-                                                DecoratedBox(
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.blue,
-                                                    border: Border.all(color: Colors.blue),
-                                                  ),
-                                                  child: Padding(
+                                        return Row(
+                                          children: labelsList.map((item) {
+                                            return Row(
+                                                children: [
+                                                  Padding(
                                                     padding: const EdgeInsets.all(3.0),
-                                                    child: Text((item.name == 'p: webview' ? item.name : null) ?? '',),
+                                                    child: Text(item.name ?? '',
+                                                      style: const TextStyle(
+                                                          backgroundColor: Colors.blue
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }).toList(),
-                                      );
-                                    }
+                                                ],
+                                              );
+                                          }).toList(),
+                                        );
+                                      }
                                   ),
-                                ),
+                                  ),
 
-                              ],),
+                                ],),
+                            ),
                             Row(
                               children: [
                                 const Icon(
@@ -145,6 +145,8 @@ class _OneIssuePage extends State<OneIssuePage> {
                                     ),
                                     onPressed: ()  async{
                                       futureOneIssue = fetchOneIssue();
+                                      futureOneLabel = fetchListLabel();
+                                      getLabel();
                                       setState(() {
 
                                       });
