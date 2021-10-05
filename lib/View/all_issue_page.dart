@@ -6,8 +6,8 @@ import 'package:toridori_task_app/Model/label_model.dart';
 
 
 
-class IssueListPage extends StatefulWidget {
-  const IssueListPage({ Key? key }) : super(key: key);
+class AllIssuePage extends StatefulWidget {
+  const AllIssuePage({ Key? key }) : super(key: key);
   @override
   _IssueListPage createState() => _IssueListPage();
 }
@@ -15,7 +15,7 @@ class IssueListPage extends StatefulWidget {
 
 
 ///IssueListページ
-class _IssueListPage extends  State<IssueListPage>{
+class _IssueListPage extends  State<AllIssuePage>{
 
   late Future <List<Issue>> futureListIssue;
   late Future<List<LabelName>> futureOneLabel;
@@ -117,8 +117,8 @@ class _IssueListPage extends  State<IssueListPage>{
                               ),
                       ),
                     );
-              },
-                );
+                },
+              );
             } else {
               return const CircularProgressIndicator();
             }

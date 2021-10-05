@@ -74,7 +74,7 @@ class Labels {
 
   factory Labels.fromJson(Map<String, dynamic> json) {
     Iterable list = json['products'];
-    print(list.runtimeType);
+
     List<LabelName> labels = list.map((i) =>
         LabelName.fromJson(i)).toList();
 
