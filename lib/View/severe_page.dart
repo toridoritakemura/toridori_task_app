@@ -17,14 +17,15 @@ class _SeverePageState extends State<SeverePage> {
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchSharedIssue();
-    futureOneLabel = fetchOneLabels();
+    futureListIssue = fetchLabelsIssue('');
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: FutureBuilder <List<Issue>>(
+
           future: futureListIssue,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
@@ -43,15 +44,6 @@ class _SeverePageState extends State<SeverePage> {
                               Text(issues[index].number.toString()),
                               const Icon(Icons.comment),
                               Text(issues[index].comments.toString()),
-                              Row(
-                                children: [
-                                  const Text('No'),
-                                  Text(issues[index].number.toString()),
-                                  const Icon(Icons.comment),
-                                  Text(issues[index].comments.toString()),
-
-                                ],
-                              ),
                             ],
                           ),
                           Row(
@@ -92,7 +84,7 @@ class _SeverePageState extends State<SeverePage> {
                             alignment: Alignment.bottomLeft,
                             child: Row(
                               children: [
-                                Text(issues[index].since ?? ''),
+                                Text(issues[index].createdAt ?? ''),
                                 const Spacer(),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(

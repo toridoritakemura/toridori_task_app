@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
-import 'package:toridori_task_app/Model/label_model.dart';
+
 
 
 class WebViewPage extends StatefulWidget {
@@ -11,21 +11,19 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
 
-  late Future <List<Issue>> futureListIssue;
-  late Future<List<LabelName>> futureOneLabel;
+  late Future <List<Issue>> futureWebViewIssue;
 
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchWebViewIssue();
-    futureOneLabel = fetchOneLabels();
+    futureWebViewIssue = fetchLabelsIssue('p: webview');
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: FutureBuilder <List<Issue>>(
-          future: futureListIssue,
+          future: futureWebViewIssue,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               List<Issue> issues = snapshot.data;
@@ -43,15 +41,6 @@ class _WebViewPageState extends State<WebViewPage> {
                               Text(issues[index].number.toString()),
                               const Icon(Icons.comment),
                               Text(issues[index].comments.toString()),
-                              Row(
-                                children: [
-                                  const Text('No'),
-                                  Text(issues[index].number.toString()),
-                                  const Icon(Icons.comment),
-                                  Text(issues[index].comments.toString()),
-
-                                ],
-                              ),
                               ],
                           ),
                           Row(
@@ -92,7 +81,7 @@ class _WebViewPageState extends State<WebViewPage> {
                             alignment: Alignment.bottomLeft,
                             child: Row(
                               children: [
-                                Text(issues[index].since ?? ''),
+                                Text(issues[index].createdAt ?? ''),
                                 const Spacer(),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(

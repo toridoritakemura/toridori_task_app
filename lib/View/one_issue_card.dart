@@ -116,8 +116,8 @@ class _OneIssuePage extends State<OneIssuePage> {
 
                             DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: Colors.blueAccent.withOpacity(0.3),
-                                ),
+                              color: Colors.blueAccent.withOpacity(0.3),
+                            ),
                                 child: Text(snapshot.data.body ?? '-',
                                   style:
                                   const TextStyle(
@@ -133,7 +133,7 @@ class _OneIssuePage extends State<OneIssuePage> {
                               alignment: Alignment.bottomLeft,
                               child: Row(
                                 children: [
-                                  Text(snapshot.data.since ?? ''),
+                                  Text(snapshot.data.createdAt ?? ''),
                                   const Spacer(),
                                   OutlinedButton(
                                     style: OutlinedButton.styleFrom(

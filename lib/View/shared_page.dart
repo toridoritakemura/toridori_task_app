@@ -17,7 +17,7 @@ class _SharedPageState extends State<SharedPage> {
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchSharedIssue();
+    futureListIssue = fetchLabelsIssue('severe: new feature');
     futureOneLabel = fetchOneLabels();
   }
 
@@ -43,15 +43,6 @@ class _SharedPageState extends State<SharedPage> {
                               Text(issues[index].number.toString()),
                               const Icon(Icons.comment),
                               Text(issues[index].comments.toString()),
-                              Row(
-                                children: [
-                                  const Text('No'),
-                                  Text(issues[index].number.toString()),
-                                  const Icon(Icons.comment),
-                                  Text(issues[index].comments.toString()),
-
-                                ],
-                              ),
                             ],
                           ),
                           Row(
@@ -92,7 +83,7 @@ class _SharedPageState extends State<SharedPage> {
                             alignment: Alignment.bottomLeft,
                             child: Row(
                               children: [
-                                Text(issues[index].since ?? ''),
+                                Text(issues[index].createdAt ?? ''),
                                 const Spacer(),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(

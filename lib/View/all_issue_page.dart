@@ -93,7 +93,7 @@ class _IssueListPage extends  State<AllIssuePage>{
                                     alignment: Alignment.bottomLeft,
                                     child: Row(
                                       children: [
-                                        Text(issues[index].since ?? ''),
+                                        Text(issues[index].createdAt ?? 'エラー'),
                                         const Spacer(),
                                         OutlinedButton(
                                           style: OutlinedButton.styleFrom(
@@ -107,6 +107,7 @@ class _IssueListPage extends  State<AllIssuePage>{
                                           ),
                                           onPressed: (){
                                             setState(() {
+
                                             });
                                           },
                                         ),

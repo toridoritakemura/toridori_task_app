@@ -17,8 +17,8 @@ class _SharedPreferencesState extends State<SharedPreferences> {
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchSharedPreferencesIssue();
-    futureOneLabel = fetchOneLabels();
+    futureListIssue = fetchLabelsIssue('p: shared_preference');
+
   }
 
   @override
@@ -43,15 +43,6 @@ class _SharedPreferencesState extends State<SharedPreferences> {
                               Text(issues[index].number.toString()),
                               const Icon(Icons.comment),
                               Text(issues[index].comments.toString()),
-                              Row(
-                                children: [
-                                  const Text('No'),
-                                  Text(issues[index].number.toString()),
-                                  const Icon(Icons.comment),
-                                  Text(issues[index].comments.toString()),
-
-                                ],
-                              ),
                             ],
                           ),
                           Row(
@@ -92,7 +83,7 @@ class _SharedPreferencesState extends State<SharedPreferences> {
                             alignment: Alignment.bottomLeft,
                             child: Row(
                               children: [
-                                Text(issues[index].since ?? ''),
+                                Text(issues[index].createdAt ?? ''),
                                 const Spacer(),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(

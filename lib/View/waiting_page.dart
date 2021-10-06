@@ -17,8 +17,8 @@ class _WaitingPageState extends State<WaitingPage> {
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchWaitingIssue();
-    futureOneLabel = fetchOneLabels();
+    futureListIssue = fetchLabelsIssue('waiting for customer response');
+
   }
 
   @override
@@ -43,15 +43,7 @@ class _WaitingPageState extends State<WaitingPage> {
                               Text(issues[index].number.toString()),
                               const Icon(Icons.comment),
                               Text(issues[index].comments.toString()),
-                              Row(
-                                children: [
-                                  const Text('No'),
-                                  Text(issues[index].number.toString()),
-                                  const Icon(Icons.comment),
-                                  Text(issues[index].comments.toString()),
 
-                                ],
-                              ),
                             ],
                           ),
                           Row(
@@ -92,7 +84,7 @@ class _WaitingPageState extends State<WaitingPage> {
                             alignment: Alignment.bottomLeft,
                             child: Row(
                               children: [
-                                Text(issues[index].since ?? ''),
+                                Text(issues[index].createdAt ?? ''),
                                 const Spacer(),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(
