@@ -23,7 +23,7 @@ class _IssueListPage extends  State<AllIssuePage>{
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchAllIssue();
+    futureListIssue = fetchLabelsIssue('');
     futureOneLabel = fetchOneLabels();
   }
 

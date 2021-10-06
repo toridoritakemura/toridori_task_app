@@ -17,8 +17,8 @@ class _SharedPageState extends State<SharedPage> {
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchLabelsIssue('severe: new feature');
-    futureOneLabel = fetchOneLabels();
+    futureListIssue = fetchLabelsIssue('p: share');
+
   }
 
   @override

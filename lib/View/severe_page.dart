@@ -17,7 +17,7 @@ class _SeverePageState extends State<SeverePage> {
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchLabelsIssue('');
+    futureListIssue = fetchLabelsIssue('severe: new feature');
 
   }
 
