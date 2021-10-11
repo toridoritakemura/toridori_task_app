@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
-import 'package:toridori_task_app/Model/label_model.dart';
+
+import '../home.dart';
+
 
 
 class WaitingPage extends StatefulWidget {
@@ -12,12 +14,11 @@ class WaitingPage extends StatefulWidget {
 class _WaitingPageState extends State<WaitingPage> {
 
   late Future <List<Issue>> futureListIssue;
-  late Future<List<LabelName>> futureOneLabel;
 
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchLabelsIssue('waiting for customer response');
+    futureListIssue = fetchLabelsIssue('waiting for customer response',url.state,url.since);
 
   }
 
@@ -43,6 +44,8 @@ class _WaitingPageState extends State<WaitingPage> {
                               Text(issues[index].number.toString()),
                               const Icon(Icons.comment),
                               Text(issues[index].comments.toString()),
+                              Text(issues[index].state ?? 'state'),
+
 
                             ],
                           ),
@@ -84,7 +87,7 @@ class _WaitingPageState extends State<WaitingPage> {
                             alignment: Alignment.bottomLeft,
                             child: Row(
                               children: [
-                                Text(issues[index].createdAt ?? ''),
+                                Text(issues[index].updatedAt ?? ''),
                                 const Spacer(),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(

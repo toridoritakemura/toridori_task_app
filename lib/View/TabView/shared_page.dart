@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
-import 'package:toridori_task_app/Model/label_model.dart';
+
+import '../home.dart';
 
 
-class SharedPreferences extends StatefulWidget {
-  const SharedPreferences({ Key? key }) : super(key: key);
+
+class SharedPage extends StatefulWidget {
+  const SharedPage({ Key? key }) : super(key: key);
   @override
-  _SharedPreferencesState createState() => _SharedPreferencesState();
+  _SharedPageState createState() => _SharedPageState();
 }
 
-class _SharedPreferencesState extends State<SharedPreferences> {
+class _SharedPageState extends State<SharedPage> {
 
   late Future <List<Issue>> futureListIssue;
-  late Future<List<LabelName>> futureOneLabel;
+
 
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchLabelsIssue('p: shared_preference');
+    futureListIssue = fetchLabelsIssue('p: share',url.state,url.since);
 
   }
 
@@ -83,7 +85,7 @@ class _SharedPreferencesState extends State<SharedPreferences> {
                             alignment: Alignment.bottomLeft,
                             child: Row(
                               children: [
-                                Text(issues[index].createdAt ?? ''),
+                                Text(issues[index].updatedAt ?? ''),
                                 const Spacer(),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(

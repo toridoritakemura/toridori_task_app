@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
 
+import '../home.dart';
 
 
-class WebViewPage extends StatefulWidget {
-  const WebViewPage({ Key? key }) : super(key: key);
+
+class SeverePage extends StatefulWidget {
+  const SeverePage({ Key? key }) : super(key: key);
   @override
-  _WebViewPageState createState() => _WebViewPageState();
+  _SeverePageState createState() => _SeverePageState();
 }
 
-class _WebViewPageState extends State<WebViewPage> {
+class _SeverePageState extends State<SeverePage> {
 
-  late Future <List<Issue>> futureWebViewIssue;
+  late Future <List<Issue>> futureListIssue;
+
 
   @override
   void initState() {
     super.initState();
-    futureWebViewIssue = fetchLabelsIssue('p: webview');
+    futureListIssue = fetchLabelsIssue('severe: new feature',url.state,url.since);
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: FutureBuilder <List<Issue>>(
-          future: futureWebViewIssue,
+          future: futureListIssue,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               List<Issue> issues = snapshot.data;
@@ -41,7 +45,7 @@ class _WebViewPageState extends State<WebViewPage> {
                               Text(issues[index].number.toString()),
                               const Icon(Icons.comment),
                               Text(issues[index].comments.toString()),
-                              ],
+                            ],
                           ),
                           Row(
                             children: [
@@ -81,7 +85,7 @@ class _WebViewPageState extends State<WebViewPage> {
                             alignment: Alignment.bottomLeft,
                             child: Row(
                               children: [
-                                Text(issues[index].createdAt ?? ''),
+                                Text(issues[index].updatedAt ?? ''),
                                 const Spacer(),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(

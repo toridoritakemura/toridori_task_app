@@ -4,7 +4,6 @@ import 'package:toridori_task_app/View/home.dart';
 
 
 
-
 void main() async{
   runApp(const MyApp());
 }
@@ -45,18 +44,3 @@ class _MyStatelessWidget extends State<MyStatelessWidget> {
   }
 
 }
-
-
-
-//todo gitと連携する
-//todo Tabを6つ作る
-//todo Tabbarの作成
-//todo Dart Analysis のエラー解消
-
-//APi通信　Httpリクエスト
-
-// ? スクロールできるTabBarとアイコンボタンの並列配置
-// ? クラスの引継ぎ方がわからない
-
-//ウィジェットは変数にしない
-//StaelessWidgetの変数にはfinalをつける。

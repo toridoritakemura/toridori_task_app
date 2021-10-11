@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http ;///1,httpパッケージを追加
 
-///3.JSONを解析して写真のリストに変換
+
 ///Issueクラスの作成
 class Issue {
 
@@ -12,8 +12,9 @@ class Issue {
   final int? comments; //コメント数
   final String? title; //タイトル
   final String? body; //質問分
-  final String? createdAt; //日付
-  final String? state;
+  final String? updatedAt; //日付
+  final String? state;//closeされてるか
+  final String? updated;//更新日時
 
 
   Issue({
@@ -21,9 +22,9 @@ class Issue {
     required this.comments,
     required this.title,
     required this.body,
-    required this.createdAt,
-    required this.state
-
+    required this.updatedAt,
+    required this.state,
+    required this.updated,
   });
 
   //Jsonオブジェクトの作成
@@ -33,8 +34,9 @@ class Issue {
       comments: json['comments'],
       title: json['title'],
       body: json['body'],
-      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
       state: json['state'],
+      updated: json['updated_at'],
     );
   }
 }
@@ -44,7 +46,7 @@ Future<Issue> fetchOneIssue() async {
   final response = await http
       .get(Uri.parse('https://api.github.com/repos/flutter/flutter/issues/90597'),
     headers: {
-      HttpHeaders.authorizationHeader: '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',
+      HttpHeaders.authorizationHeader: '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',
     },
   );
 
@@ -57,13 +59,12 @@ Future<Issue> fetchOneIssue() async {
   }
 }
 
+///Issue呼び出し[各ラベル]
+Future<List<Issue>> fetchLabelsIssue(String labels,String state,String since) async {
 
-///[各ラベル]のIssue呼び出し
-Future<List<Issue>> fetchLabelsIssue(labels) async {
-
-  final response = await http.get(Uri.parse('https://api.github.com/repos/flutter/flutter/issues?labels=$labels'),
+  final response = await http.get(Uri.parse('https://api.github.com/repos/flutter/flutter/issues?labels=$labels&state=$state&since=$since'),
     headers: {
-      HttpHeaders.authorizationHeader: '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',
+      HttpHeaders.authorizationHeader: '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',
     },
   );
 

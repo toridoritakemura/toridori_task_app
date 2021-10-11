@@ -1,8 +1,9 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
-import 'package:toridori_task_app/Model/label_model.dart';
+
+import 'home.dart';
+
 
 
 
@@ -13,18 +14,14 @@ class AllIssuePage extends StatefulWidget {
 }
 
 
-
 ///IssueListページ
 class _IssueListPage extends  State<AllIssuePage>{
-
   late Future <List<Issue>> futureListIssue;
-  late Future<List<LabelName>> futureOneLabel;
 
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchLabelsIssue('');
-    futureOneLabel = fetchOneLabels();
+    futureListIssue = fetchLabelsIssue('',url.state,url.since);
   }
 
 
@@ -51,6 +48,9 @@ class _IssueListPage extends  State<AllIssuePage>{
                                       Text(issues[index].number.toString()),
                                       const Icon(Icons.comment),
                                       Text(issues[index].comments.toString()),
+                                      Text(issues[index].state ?? 'state'),
+                                      Text(issues[index].updated ?? 'updated'),
+
 
                                     ],
                                   ),
@@ -93,7 +93,7 @@ class _IssueListPage extends  State<AllIssuePage>{
                                     alignment: Alignment.bottomLeft,
                                     child: Row(
                                       children: [
-                                        Text(issues[index].createdAt ?? 'エラー'),
+                                        Text(issues[index].updatedAt ?? 'エラー'),
                                         const Spacer(),
                                         OutlinedButton(
                                           style: OutlinedButton.styleFrom(
@@ -106,8 +106,8 @@ class _IssueListPage extends  State<AllIssuePage>{
                                             ),
                                           ),
                                           onPressed: (){
-                                            setState(() {
 
+                                            setState(() {
                                             });
                                           },
                                         ),
