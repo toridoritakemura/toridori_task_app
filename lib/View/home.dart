@@ -6,6 +6,9 @@ import 'package:toridori_task_app/View/issue_page.dart';
 
 /// review: おすすめしておいて申し訳ないのですが、StatefulWidgetは基本的には使わない方針で行った方がいいです！
 /// いくつか理由があるのですが、シンプルにいうと、viewにmodelにあるべきデータが溜まるから/setState呼ぶ必要ある/modelと分割できないから という感じです！
+///
+/// この辺を参考にproviderとfreezedを導入してください！
+/// https://note.com/mukae9/n/n91b3301ebccf
 
 ///全体ページ
 class HomePage extends StatefulWidget {
