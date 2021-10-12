@@ -48,8 +48,8 @@ class _IssueListPage extends  State<AllIssuePage>{
                                       Text(issues[index].number.toString()),
                                       const Icon(Icons.comment),
                                       Text(issues[index].comments.toString()),
-                                      Text(issues[index].state ?? 'state'),
-                                      Text(issues[index].updated ?? 'updated'),
+//                                      Text(issues[index].state ?? 'state'),
+//                                      Text(issues[index].updated ?? 'updated'),
 
 
                                     ],

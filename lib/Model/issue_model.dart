@@ -59,7 +59,7 @@ Future<Issue> fetchOneIssue() async {
   }
 }
 
-///Issue呼び出し[各ラベル]
+///Issue呼び出し[各ラベル
 Future<List<Issue>> fetchLabelsIssue(String labels,String state,String since) async {
 
   final response = await http.get(Uri.parse('https://api.github.com/repos/flutter/flutter/issues?labels=$labels&state=$state&since=$since'),
