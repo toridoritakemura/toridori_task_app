@@ -13,11 +13,14 @@ class AllIssuePage extends StatefulWidget {
 class _IssueListPage extends State<AllIssuePage> {
   late Future<List<Issue>> futureListIssue;
 
+  /// review: globalな関数は避けた方がいいので追加しました
+  final issueRepository = IssueRepository();
+
   @override
   void initState() {
     super.initState();
     futureListIssue =
-        fetchLabelsIssue(url.label, url.state, url.since, url.sort);
+        issueRepository.fetchLabelsIssue(url.label, url.state, url.since, url.sort);
   }
 
   @override

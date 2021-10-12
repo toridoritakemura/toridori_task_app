@@ -39,25 +39,36 @@ class Issue {
   }
 }
 
-///Issue呼び出し[各ラベル]
-Future<List<Issue>> fetchLabelsIssue(
-    String labels, String state, String since, String sort) async {
-  final response = await http.get(
-    Uri.parse(
-        'https://api.github.com/repos/flutter/flutter/issues?labels=$labels&state=$state&since=$since&sort=$sort'),
-    headers: {
-      HttpHeaders.authorizationHeader:
-          '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',
-    },
-  );
+/// -----------------------------------------------------------------
+/// review: 別ファイルに分けた方がいい
+class IssueRepository {
 
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Issue.fromJson(data)).toList();
-  } else {
-    throw Exception('Unexpected error occured!');
+  /// review: globalな関数・変数などは基本的に作成しない方針で行った方がいいです。
+  /// 沢山globalなやつがあると後からあれどこにあったっけ？とかがたどりにくくなります。
+  /// とりあえずはグルーピングするという意識でよいのでやってみてください
+  ///
+  ///Issue呼び出し[各ラベル]
+  Future<List<Issue>> fetchLabelsIssue(
+      String labels, String state, String since, String sort) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://api.github.com/repos/flutter/flutter/issues?labels=$labels&state=$state&since=$since&sort=$sort'),
+      headers: {
+        HttpHeaders.authorizationHeader:
+            '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',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((data) => Issue.fromJson(data)).toList();
+    } else {
+      throw Exception('Unexpected error occured!');
+    }
   }
 }
+
+/// -----------------------------------------------------------------
 
 /////Issue単体のAPIデータ取得
 //Future<Issue> fetchOneIssue() async {

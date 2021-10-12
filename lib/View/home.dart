@@ -54,6 +54,9 @@ class _HomePageState extends State<HomePage> {
 
   bool isVisible = false; //絞り込みボタンON/OFF
 
+  /// review: globalな関数は避けた方がいいので追加しました
+  final issueRepository = IssueRepository();
+
   ///Close状態のIssueを除外する機能
   void getState() {
     if (checkBox1 == false) {
@@ -61,7 +64,7 @@ class _HomePageState extends State<HomePage> {
     } else if (checkBox1 == true) {
       url.state = 'open';
     }
-    fetchLabelsIssue('', url.state, url.since, url.sort);
+    issueRepository.fetchLabelsIssue('', url.state, url.since, url.sort);
   }
 
   ///一年以上の更新しないIssueを除外する機能
@@ -71,7 +74,7 @@ class _HomePageState extends State<HomePage> {
     } else if (checkBox2 == true) {
       url.since = yearAgo.toString();
     }
-    fetchLabelsIssue('', url.state, url.since, url.sort);
+    issueRepository.fetchLabelsIssue('', url.state, url.since, url.sort);
   }
 
   ///一年以上の更新しないIssueを除外する機能
@@ -90,7 +93,7 @@ class _HomePageState extends State<HomePage> {
     else if (radioButton == 3) {
       url.sort = 'comments';
     }
-    fetchLabelsIssue('', url.state, url.since, url.sort);
+    issueRepository.fetchLabelsIssue('', url.state, url.since, url.sort);
   }
 
   void getLabel() {
@@ -108,7 +111,7 @@ class _HomePageState extends State<HomePage> {
     else if (radioButton == 3) {
       url.sort = 'comments';
     }
-    fetchLabelsIssue('', url.state, url.since, url.sort);
+    issueRepository.fetchLabelsIssue('', url.state, url.since, url.sort);
   }
 
   @override
