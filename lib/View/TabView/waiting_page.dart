@@ -18,7 +18,7 @@ class _WaitingPageState extends State<WaitingPage> {
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchLabelsIssue('waiting for customer response',url.state,url.since);
+    futureListIssue = fetchLabelsIssue('waiting for customer response',url.state,url.since,url.sort);
 
   }
 

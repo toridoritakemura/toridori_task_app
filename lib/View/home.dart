@@ -34,14 +34,14 @@ const List<Tab> tabs = <Tab>[
 ];
 
 
-Url url = Url(state: "all",since: '2001-10-16 15:54:34.467953');
+Url url = Url(state: "all",since: '2001-10-16 15:54:34.467953',sort: 'created');
 DateTime now = DateTime.now();
 
 
 class _HomePageState extends State<HomePage> {
   bool checkBox1 = false;//Close状態のIssueを除外するチェックボックス
   bool checkBox2 = false;//一年以上の更新しないIssueを除外するチェックボックス
-  int val = -1;//3つのRadio
+  int val = 1;//3つのRadio
 
   DateTime yearAgo = now.add(const Duration(days:365)*-1);//一年前
   DateTime longAgo = now.add(const Duration(days:365)*-20);
@@ -54,9 +54,9 @@ class _HomePageState extends State<HomePage> {
       url.state = 'all';
 
     }else if (checkBox1 == true){
-      url.state = 'closed';
+      url.state = 'open';
     }
-    fetchLabelsIssue('',url.state,url.since);
+    fetchLabelsIssue('',url.state,url.since,url.sort);
   }
 
   ///一年以上の更新しないIssueを除外する機能
@@ -67,8 +67,30 @@ class _HomePageState extends State<HomePage> {
     }else if (checkBox2 == true){
       url.since = yearAgo.toString();
     }
-    fetchLabelsIssue('',url.state,url.since);
+    fetchLabelsIssue('',url.state,url.since,url.sort);
   }
+
+  ///一年以上の更新しないIssueを除外する機能
+  void getSort () {
+    ///作成日時の新しい順
+    if (val == 1){
+      url.sort = 'created';
+
+    }
+    ///更新日時の古い順
+    else if (val == 2){
+      url.sort = 'updated-asc';
+
+    }
+    ///コメントの多い順
+    else if (val == 3){
+      url.sort = 'comments';
+
+    }
+    fetchLabelsIssue('',url.state,url.since,url.sort);
+  }
+
+
 
 
   @override
@@ -109,7 +131,6 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       setState(() {
                         isVisible = !isVisible;
-
                       });
                     },
                   ),
@@ -223,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
 
                                   const Flexible(
-                                    child: Text('更新日時の新しい順',
+                                    child: Text('作成日時の新しい順',
                                       overflow: TextOverflow.fade,
                                     ),
                                   ),
@@ -309,6 +330,7 @@ class _HomePageState extends State<HomePage> {
                                   setState(() {
                                     getState();
                                     getSince();
+                                    getSort();
                                     isVisible = !isVisible;
                                   });
                                 },

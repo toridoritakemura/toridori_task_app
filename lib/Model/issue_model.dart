@@ -60,9 +60,9 @@ Future<Issue> fetchOneIssue() async {
 }
 
 ///Issue呼び出し[各ラベル
-Future<List<Issue>> fetchLabelsIssue(String labels,String state,String since) async {
+Future<List<Issue>> fetchLabelsIssue(String labels,String state,String since,String sort) async {
 
-  final response = await http.get(Uri.parse('https://api.github.com/repos/flutter/flutter/issues?labels=$labels&state=$state&since=$since'),
+  final response = await http.get(Uri.parse('https://api.github.com/repos/flutter/flutter/issues?labels=$labels&state=$state&since=$since&sort=$sort'),
     headers: {
       HttpHeaders.authorizationHeader: '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',
     },

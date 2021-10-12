@@ -17,7 +17,7 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void initState() {
     super.initState();
-    futureWebViewIssue = fetchLabelsIssue('p: webview',url.state,url.since);
+    futureWebViewIssue = fetchLabelsIssue('p: webview',url.state,url.since,url.sort);
   }
 
   @override

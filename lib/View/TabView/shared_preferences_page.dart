@@ -19,7 +19,7 @@ class _SharedPreferencesPageState extends State<SharedPreferencesPage> {
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchLabelsIssue('p: shared_preferences',url.state,url.since);
+    futureListIssue = fetchLabelsIssue('p: shared_preferences',url.state,url.since,url.sort);
 
   }
 

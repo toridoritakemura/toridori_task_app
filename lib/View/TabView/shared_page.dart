@@ -19,7 +19,7 @@ class _SharedPageState extends State<SharedPage> {
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchLabelsIssue('p: share',url.state,url.since);
+    futureListIssue = fetchLabelsIssue('p: share',url.state,url.since,url.sort);
 
   }
 
