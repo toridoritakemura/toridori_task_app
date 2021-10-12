@@ -57,6 +57,9 @@ Url url = Url(
 DateTime now = DateTime.now();
 
 class _HomePageState extends State<HomePage> {
+
+  /// review: ネーミングはわかりやすいものを！
+  /// isRemoveClosedとか、filterClosedみたいな？変数名が増えてくると名前だけでその変数に何が入っているか把握したいので今から意識してみてください！
   bool checkBox1 = false; //Close状態のIssueを除外するチェックボックス
   bool checkBox2 = false; //一年以上の更新しないIssueを除外するチェックボックス
   int radioButton = 1; //3つのRadio
