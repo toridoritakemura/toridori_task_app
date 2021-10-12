@@ -19,8 +19,6 @@ class _OneIssuePage extends State<OneIssuePage> {
   @override
   void initState() {
     super.initState();
-    futureOneIssue = fetchOneIssue();
-
   }
 
   @override
@@ -105,7 +103,7 @@ class _OneIssuePage extends State<OneIssuePage> {
                                       ),
                                     ),
                                     onPressed: ()  async{
-                                      futureOneIssue = fetchOneIssue();
+
 
 
                                       setState(() {

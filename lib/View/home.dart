@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
-import 'package:toridori_task_app/Model/label_model.dart';
+import 'package:toridori_task_app/Model/filter_model.dart';
 
 
 import 'package:toridori_task_app/View/all_issue_page.dart';
@@ -41,11 +41,11 @@ DateTime now = DateTime.now();
 class _HomePageState extends State<HomePage> {
   bool checkBox1 = false;//Close状態のIssueを除外するチェックボックス
   bool checkBox2 = false;//一年以上の更新しないIssueを除外するチェックボックス
-  int val = 1;//3つのRadio
+  int radioButtom = 1;//3つのRadio
 
   DateTime yearAgo = now.add(const Duration(days:365)*-1);//一年前
   DateTime longAgo = now.add(const Duration(days:365)*-20);
-
+  
   bool isVisible = false; //絞り込みボタンON/OFF
 
   ///Close状態のIssueを除外する機能
@@ -73,17 +73,17 @@ class _HomePageState extends State<HomePage> {
   ///一年以上の更新しないIssueを除外する機能
   void getSort () {
     ///作成日時の新しい順
-    if (val == 1){
+    if (radioButtom == 1){
       url.sort = 'created';
 
     }
     ///更新日時の古い順
-    else if (val == 2){
+    else if (radioButtom == 2){
       url.sort = 'updated-asc';
 
     }
     ///コメントの多い順
-    else if (val == 3){
+    else if (radioButtom == 3){
       url.sort = 'comments';
 
     }
@@ -104,8 +104,7 @@ class _HomePageState extends State<HomePage> {
             appBar: AppBar(
               backgroundColor: Colors.white,
               flexibleSpace: SafeArea(
-                ///タブオプション
-                child: TabBar(
+                child: TabBar(//タブオプション
                   isScrollable: true, //スクロール
                   unselectedLabelColor: Colors.black.withOpacity(0.3), //選択されてないタブの色
                   unselectedLabelStyle: const TextStyle(fontSize: 12.0), //選択されていないタブのフォントサイズ
@@ -117,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                   tabs: tabs,
                 ),
               ),
-              actions: [
+              actions: [//右上ボタン
                 Ink(
                   decoration: const ShapeDecoration(
                     color: Colors.white,
@@ -153,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                 ),
             ),
           ),
-          Visibility(
+          Visibility(//表示ON/OFF
               visible: isVisible,
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -234,10 +233,10 @@ class _HomePageState extends State<HomePage> {
                                     child: Radio(
                                       activeColor: Colors.blue,
                                       value: 1,
-                                      groupValue: val,
+                                      groupValue: radioButtom,
                                       onChanged: (value) {
                                         setState(() {
-                                          val = 1;
+                                          radioButtom = 1;
                                         });
                                       },
                                     ),
@@ -263,10 +262,10 @@ class _HomePageState extends State<HomePage> {
                                     child: Radio(
                                       activeColor: Colors.blue,
                                       value: 2,
-                                      groupValue: val,
+                                      groupValue: radioButtom,
                                       onChanged: (value) {
                                         setState(() {
-                                          val = 2;
+                                          radioButtom = 2;
                                         });
                                       },
                                     ),
@@ -292,10 +291,10 @@ class _HomePageState extends State<HomePage> {
                                     child: Radio(
                                       activeColor: Colors.blue,
                                       value: 3,
-                                      groupValue: val,
+                                      groupValue: radioButtom,
                                       onChanged: (e) {
                                         setState(() {
-                                          val = 3;
+                                          radioButtom = 3;
                                         });
                                       },
                                     ),
