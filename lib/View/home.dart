@@ -4,6 +4,9 @@ import 'package:toridori_task_app/Model/filter_model.dart';
 
 import 'package:toridori_task_app/View/issue_page.dart';
 
+/// review: おすすめしておいて申し訳ないのですが、StatefulWidgetは基本的には使わない方針で行った方がいいです！
+/// いくつか理由があるのですが、シンプルにいうと、viewにmodelにあるべきデータが溜まるから/setState呼ぶ必要ある/modelと分割できないから という感じです！
+
 ///全体ページ
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
