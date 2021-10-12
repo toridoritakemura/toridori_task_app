@@ -128,60 +128,70 @@ class _HomePageState extends State<HomePage> {
             appBar: AppBar(
               backgroundColor: Colors.white,
               flexibleSpace: SafeArea(
-                child: TabBar(
-                    //タブオプション
-                    isScrollable: true, //スクロール
-                    unselectedLabelColor:
-                        Colors.black.withOpacity(0.3), //選択されてないタブの色
-                    unselectedLabelStyle:
-                        const TextStyle(fontSize: 12.0), //選択されていないタブのフォントサイズ
-                    labelColor: Colors.black, //タブの文字の色
-                    labelStyle:
-                        const TextStyle(fontSize: 16.0), //選択されているフォントサイズ
-                    indicatorColor: Colors.blue, //インディケーターの色
-                    indicatorWeight: 3.0, //インディケーターの太さ
-                    ///タブに表示する内容
-                    tabs: tabs,
-                    onTap: (index) {
-                      if (index == 0) {
-                        url.label = '';
-                      } else if (index == 1) {
-                        url.label = 'p: webview';
-                      } else if (index == 2) {
-                        url.label = 'p: shared_preferences';
-                      } else if (index == 3) {
-                        url.label = 'waiting for customer response';
-                      } else if (index == 4) {
-                        url.label = 'severe: new feature';
-                      } else if (index == 5) {
-                        url.label = 'p: share';
-                      } else {
-                        url.label = '';
-                      }
+                /// review: tabbarの横においているiconが重なってしまっている
+                /// アイコン横に置けていい感じですね！
+                /// ただ、最後のタブを表示したとき重なってしまっています。下記は修正の一例です！参考にしてください
+                child: Row(
+                  children: [
 
-                      setState(() {});
-                    }),
+                    /// tabbar
+                    Expanded(
+                      child: TabBar(
+                          //タブオプション
+                          isScrollable: true, //スクロール
+                          unselectedLabelColor:
+                              Colors.black.withOpacity(0.3), //選択されてないタブの色
+                          unselectedLabelStyle:
+                              const TextStyle(fontSize: 12.0), //選択されていないタブのフォントサイズ
+                          labelColor: Colors.black, //タブの文字の色
+                          labelStyle:
+                              const TextStyle(fontSize: 16.0), //選択されているフォントサイズ
+                          indicatorColor: Colors.blue, //インディケーターの色
+                          indicatorWeight: 3.0, //インディケーターの太さ
+                          ///タブに表示する内容
+                          tabs: tabs,
+                          onTap: (index) {
+                            if (index == 0) {
+                              url.label = '';
+                            } else if (index == 1) {
+                              url.label = 'p: webview';
+                            } else if (index == 2) {
+                              url.label = 'p: shared_preferences';
+                            } else if (index == 3) {
+                              url.label = 'waiting for customer response';
+                            } else if (index == 4) {
+                              url.label = 'severe: new feature';
+                            } else if (index == 5) {
+                              url.label = 'p: share';
+                            } else {
+                              url.label = '';
+                            }
+
+                            setState(() {});
+                          }),
+                    ),
+                    
+                    //右上ボタン
+                    Ink(
+                      decoration: const ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(),
+                      ),
+                      child: IconButton(
+                        // 表示アイコン
+                        icon: const Icon(Icons.dehaze_sharp),
+                        // アイコン色
+                        color: Colors.black,
+                        onPressed: () {
+                          setState(() {
+                            isVisible = !isVisible;
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
-              actions: [
-                //右上ボタン
-                Ink(
-                  decoration: const ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(),
-                  ),
-                  child: IconButton(
-                    // 表示アイコン
-                    icon: const Icon(Icons.dehaze_sharp),
-                    // アイコン色
-                    color: Colors.black,
-                    onPressed: () {
-                      setState(() {
-                        isVisible = !isVisible;
-                      });
-                    },
-                  ),
-                )
-              ],
             ),
             body: const Center(
               child: TabBarView(
