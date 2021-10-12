@@ -170,7 +170,8 @@ class _HomePageState extends State<HomePage> {
                             setState(() {});
                           }),
                     ),
-                    
+
+                    /// review: このInkっているのかな？単純な疑問
                     //右上ボタン
                     Ink(
                       decoration: const ShapeDecoration(
