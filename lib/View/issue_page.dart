@@ -21,7 +21,7 @@ class _IssueListPage extends  State<AllIssuePage>{
   @override
   void initState() {
     super.initState();
-    futureListIssue = fetchLabelsIssue('',url.state,url.since,url.sort);
+    futureListIssue = fetchLabelsIssue(url.label,url.state,url.since,url.sort);
   }
 
 

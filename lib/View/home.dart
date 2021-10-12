@@ -3,13 +3,9 @@ import 'package:toridori_task_app/Model/issue_model.dart';
 import 'package:toridori_task_app/Model/filter_model.dart';
 
 
-import 'package:toridori_task_app/View/all_issue_page.dart';
-import 'package:toridori_task_app/View/TabView/severe_page.dart';
-import 'package:toridori_task_app/View/TabView/shared_page.dart';
-import 'package:toridori_task_app/View/TabView/shared_preferences_page.dart';
+import 'package:toridori_task_app/View/issue_page.dart';
 
-import 'package:toridori_task_app/View/TabView/waiting_page.dart';
-import 'package:toridori_task_app/View/TabView/webview_page.dart';
+
 
 
 
@@ -34,14 +30,14 @@ const List<Tab> tabs = <Tab>[
 ];
 
 
-Url url = Url(state: "all",since: '2001-10-16 15:54:34.467953',sort: 'created');
+Url url = Url(label:'',state: "all",since: '2001-10-16 15:54:34.467953',sort: 'created');
 DateTime now = DateTime.now();
 
 
 class _HomePageState extends State<HomePage> {
   bool checkBox1 = false;//Close状態のIssueを除外するチェックボックス
   bool checkBox2 = false;//一年以上の更新しないIssueを除外するチェックボックス
-  int radioButtom = 1;//3つのRadio
+  int radioButton = 1;//3つのRadio
 
   DateTime yearAgo = now.add(const Duration(days:365)*-1);//一年前
   DateTime longAgo = now.add(const Duration(days:365)*-20);
@@ -73,19 +69,36 @@ class _HomePageState extends State<HomePage> {
   ///一年以上の更新しないIssueを除外する機能
   void getSort () {
     ///作成日時の新しい順
-    if (radioButtom == 1){
+    if (radioButton == 1){
       url.sort = 'created';
 
     }
     ///更新日時の古い順
-    else if (radioButtom == 2){
+    else if (radioButton == 2){
       url.sort = 'updated-asc';
 
     }
     ///コメントの多い順
-    else if (radioButtom == 3){
+    else if (radioButton == 3){
       url.sort = 'comments';
 
+    }
+    fetchLabelsIssue('',url.state,url.since,url.sort);
+  }
+
+  void getLabel () {
+    ///作成日時の新しい順
+    if (radioButton == 1){
+      url.sort = 'created';
+    }
+    ///更新日時の古い順
+    else if (radioButton == 2){
+      url.sort = 'updated-asc';
+
+    }
+    ///コメントの多い順
+    else if (radioButton == 3){
+      url.sort = 'comments';
     }
     fetchLabelsIssue('',url.state,url.since,url.sort);
   }
@@ -114,7 +127,29 @@ class _HomePageState extends State<HomePage> {
                   indicatorWeight: 3.0, //インディケーターの太さ
                   ///タブに表示する内容
                   tabs: tabs,
-                ),
+                  onTap: (index) {
+                    if (index == 0){
+                      url.label = '';
+                    }
+                    else if (index == 1){
+                      url.label = 'p: webview';
+                    }else if (index == 2){
+                      url.label = 'p: shared_preferences';
+                    }else if (index == 3){
+                      url.label = 'waiting for customer response';
+                    }else if (index == 4){
+                      url.label = 'severe: new feature';
+                    }else if (index == 5){
+                      url.label = 'p: share';
+                    }else {
+                      url.label = '';
+                    }
+
+
+                    setState(() {
+
+                    });
+                  }),
               ),
               actions: [//右上ボタン
                 Ink(
@@ -128,7 +163,9 @@ class _HomePageState extends State<HomePage> {
                     // アイコン色
                     color: Colors.black,
                     onPressed: () {
+
                       setState(() {
+
                         isVisible = !isVisible;
                       });
                     },
@@ -140,14 +177,14 @@ class _HomePageState extends State<HomePage> {
             body:  const Center(
               child:
                   TabBarView(
-                  ///各内容のタブ
+                    ///各内容のタブ
                     children: [
                       AllIssuePage(), //全て
-                      WebViewPage(), //p: webview
-                      SharedPreferencesPage(), //p: shared_preferences
-                      WaitingPage(), //waiting for customer response
-                      SeverePage(), //severe: new feature
-                      SharedPage(), //p: share
+                      AllIssuePage(), //p: webview
+                      AllIssuePage(), //p: shared_preferences
+                      AllIssuePage(), //waiting for customer response
+                      AllIssuePage(), //severe: new feature
+                      AllIssuePage(), //p: share
                     ]
                 ),
             ),
@@ -233,10 +270,10 @@ class _HomePageState extends State<HomePage> {
                                     child: Radio(
                                       activeColor: Colors.blue,
                                       value: 1,
-                                      groupValue: radioButtom,
+                                      groupValue: radioButton,
                                       onChanged: (value) {
                                         setState(() {
-                                          radioButtom = 1;
+                                          radioButton = 1;
                                         });
                                       },
                                     ),
@@ -262,10 +299,10 @@ class _HomePageState extends State<HomePage> {
                                     child: Radio(
                                       activeColor: Colors.blue,
                                       value: 2,
-                                      groupValue: radioButtom,
+                                      groupValue: radioButton,
                                       onChanged: (value) {
                                         setState(() {
-                                          radioButtom = 2;
+                                          radioButton = 2;
                                         });
                                       },
                                     ),
@@ -291,10 +328,10 @@ class _HomePageState extends State<HomePage> {
                                     child: Radio(
                                       activeColor: Colors.blue,
                                       value: 3,
-                                      groupValue: radioButtom,
+                                      groupValue: radioButton,
                                       onChanged: (e) {
                                         setState(() {
-                                          radioButtom = 3;
+                                          radioButton = 3;
                                         });
                                       },
                                     ),
