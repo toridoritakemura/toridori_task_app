@@ -19,6 +19,10 @@ class _OneIssuePage extends State<OneIssuePage> {
 
   @override
   Widget build(BuildContext context) {
+    /// review: FutureBuilderは避けましょう！
+    /// tabを横に移動させたらわかると思うのですが、一度読み込んだtabも再度表示するためにapiを叩いています。
+    /// Providerとfreezedで綺麗に解決することができるので頑張ってください！
+    /// https://note.com/mukae9/n/n91b3301ebccf
     return FutureBuilder(
         future: futureOneIssue,
         builder: (BuildContext context, AsyncSnapshot snapshot) {

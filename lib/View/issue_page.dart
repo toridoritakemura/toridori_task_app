@@ -26,6 +26,10 @@ class _IssueListPage extends State<AllIssuePage> {
   @override
   Widget build(BuildContext context) {
     return Center(
+      /// review: FutureBuilderは避けましょう！
+      /// tabを横に移動させたらわかると思うのですが、一度読み込んだtabも再度表示するためにapiを叩いています。
+      /// Providerとfreezedで綺麗に解決することができるので頑張ってください！
+      /// https://note.com/mukae9/n/n91b3301ebccf
       child: FutureBuilder<List<Issue>>(
           future: futureListIssue,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
