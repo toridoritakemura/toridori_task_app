@@ -19,7 +19,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-///タブリスト
+/// review: global変数は避けましょう！
+/// これはwidgetの中、フィールド変数にしていいと思います。globalにあるよりかよいです！
 const List<Tab> tabs = <Tab>[
   Tab(
     text: '全て',
@@ -41,11 +42,18 @@ const List<Tab> tabs = <Tab>[
   ),
 ];
 
+/// review: global変数は避けましょう！
+/// 避けましょう!AllIssuePageに渡すタイミングで都度インスタンス化していいと思います！
 Url url = Url(
     label: '',
     state: "all",
     since: '2001-10-16 15:54:34.467953',
     sort: 'created');
+
+/// review: global変数は避けましょう！
+/// 利用箇所が限られており、使用回数も少ないので"now"という変数名よりDateTime.now()という関数呼び出しの方がむしろわかりやすいと思います
+/// 人の判断に寄るので決まりはなく、肌感なので慣れていきましょう！
+/// 10行程下のやつ、final yearAgo = DateTime.now().add(const Duration(days: 365) * -1); でいいのではという話
 DateTime now = DateTime.now();
 
 class _HomePageState extends State<HomePage> {
