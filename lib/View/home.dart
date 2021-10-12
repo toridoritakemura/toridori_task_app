@@ -57,7 +57,21 @@ Url url = Url(
 DateTime now = DateTime.now();
 
 class _HomePageState extends State<HomePage> {
+  /// review: globalな関数は避けた方がいいので追加しました
+  final issueRepository = IssueRepository();
 
+  /// --------------------------------------------------------------------------------------
+  /// review: Providerを導入したら、
+  /// 上の区切りで挟んだ関数・変数たちはStateNotifierのclassに移動させましょう！
+  /// viewとmodelにアーキテクチャを意識して分けていてとてもいいです！
+  /// 次のレベルとして、それぞれの役割を意識してみましょう！
+  /// modelの役割は下記です
+  ///   - viewの状態を表すデータを持ちます.viewにこれらを持たせると再利用しにくかったり、それぞれのテストがしにくい。viewをピュアなviewに保てないので変更がしにくいなどがあげられます
+  ///   - widgetを操作したときに行う処置が書かれます。api呼び出しなんかもそっちで行いましょう！
+  ///   - データの変換(DateTimeをStringに変更したり)もmodelで！view複雑な処理は描画の妨げになり、表示が遅いなどの弊害が起こります
+  ///
+  /// viewはできるだけwidgetとmodelを持つだけ、という感じにシンプルにする方針で行くといい感じになりそうです！
+  ///
   /// review: ネーミングはわかりやすいものを！
   /// isRemoveClosedとか、filterClosedみたいな？変数名が増えてくると名前だけでその変数に何が入っているか把握したいので今から意識してみてください！
   bool checkBox1 = false; //Close状態のIssueを除外するチェックボックス
@@ -68,9 +82,6 @@ class _HomePageState extends State<HomePage> {
   DateTime longAgo = now.add(const Duration(days: 365) * -20);
 
   bool isVisible = false; //絞り込みボタンON/OFF
-
-  /// review: globalな関数は避けた方がいいので追加しました
-  final issueRepository = IssueRepository();
 
   ///Close状態のIssueを除外する機能
   void getState() {
@@ -129,6 +140,8 @@ class _HomePageState extends State<HomePage> {
     issueRepository.fetchLabelsIssue('', url.state, url.since, url.sort);
   }
 
+  /// --------------------------------------------------------------------------------------
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -136,6 +149,10 @@ class _HomePageState extends State<HomePage> {
       length: tabs.length, //タブの数
       child: Stack(
         children: [
+          /// review: Providerを導入したら、
+          /// 巨大なbuild関数を避けましょう！
+          /// StatefulWidgetの弊害なのですが、widgetを複数に分けづらいと思います。
+          /// このfileの一番下にProviderを入れたらこんな風に分割したらいいと思うよ！というのを書いておきます。よければ参考にしてください。
           Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
@@ -145,7 +162,6 @@ class _HomePageState extends State<HomePage> {
                 /// ただ、最後のタブを表示したとき重なってしまっています。下記は修正の一例です！参考にしてください
                 child: Row(
                   children: [
-
                     /// tabbar
                     Expanded(
                       child: TabBar(
@@ -153,8 +169,8 @@ class _HomePageState extends State<HomePage> {
                           isScrollable: true, //スクロール
                           unselectedLabelColor:
                               Colors.black.withOpacity(0.3), //選択されてないタブの色
-                          unselectedLabelStyle:
-                              const TextStyle(fontSize: 12.0), //選択されていないタブのフォントサイズ
+                          unselectedLabelStyle: const TextStyle(
+                              fontSize: 12.0), //選択されていないタブのフォントサイズ
                           labelColor: Colors.black, //タブの文字の色
                           labelStyle:
                               const TextStyle(fontSize: 16.0), //選択されているフォントサイズ
@@ -407,6 +423,49 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+
+
+/// review: 参考
+/// Provider入れていないので操作してもUIに変更は起こりません
+class HomeScreen extends StatelessWidget {
+  const HomeScreen();
+
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Scaffold(
+          body: _Body(),
+        ),
+        _Dialog(),
+      ],
+    );
+  }
+}
+
+/// 別ファイルに分ける
+class _Dialog extends StatelessWidget {
+  const _Dialog();
+
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('title!!!'),
+    );
+  }
+}
+
+/// 別ファイルに分ける
+class _Body extends StatelessWidget {
+  const _Body();
+
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text('Body'),
+      ],
     );
   }
 }
