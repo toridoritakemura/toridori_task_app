@@ -1,4 +1,3 @@
-
 class Url {
   String label;
   String state;
@@ -11,14 +10,4 @@ class Url {
     required this.since,
     required this.sort,
   });
-
-
 }
-
-
-
-
-
-
-
-

@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/View/home.dart';
 
-
-
-void main() async{
+void main() async {
   runApp(const MyApp());
 }
 
@@ -19,9 +17,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, //タグ非表示
       title: _title,
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
+
       /// review: MyStatelessWidgetは何もしていないのでいらなさそう
       /// const使ってていいね！
       home: const HomePage(), //home.dart

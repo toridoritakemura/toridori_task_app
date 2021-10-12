@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
 import 'package:toridori_task_app/Model/filter_model.dart';
 
-
 import 'package:toridori_task_app/View/issue_page.dart';
-
-
-
-
-
 
 ///全体ページ
 class HomePage extends StatefulWidget {
@@ -16,95 +10,103 @@ class HomePage extends StatefulWidget {
 
   @override
   _HomePageState createState() => _HomePageState();
-
 }
 
 ///タブリスト
 const List<Tab> tabs = <Tab>[
-  Tab(text: '全て',),
-  Tab(text: 'p: webview',),
-  Tab(text: 'p: shared_preferences',),
-  Tab(text: 'waiting for customer response',),
-  Tab(text: 'severe: new feature',),
-  Tab(text: 'p: share',),
+  Tab(
+    text: '全て',
+  ),
+  Tab(
+    text: 'p: webview',
+  ),
+  Tab(
+    text: 'p: shared_preferences',
+  ),
+  Tab(
+    text: 'waiting for customer response',
+  ),
+  Tab(
+    text: 'severe: new feature',
+  ),
+  Tab(
+    text: 'p: share',
+  ),
 ];
 
-
-Url url = Url(label:'',state: "all",since: '2001-10-16 15:54:34.467953',sort: 'created');
+Url url = Url(
+    label: '',
+    state: "all",
+    since: '2001-10-16 15:54:34.467953',
+    sort: 'created');
 DateTime now = DateTime.now();
 
-
 class _HomePageState extends State<HomePage> {
-  bool checkBox1 = false;//Close状態のIssueを除外するチェックボックス
-  bool checkBox2 = false;//一年以上の更新しないIssueを除外するチェックボックス
-  int radioButton = 1;//3つのRadio
+  bool checkBox1 = false; //Close状態のIssueを除外するチェックボックス
+  bool checkBox2 = false; //一年以上の更新しないIssueを除外するチェックボックス
+  int radioButton = 1; //3つのRadio
 
-  DateTime yearAgo = now.add(const Duration(days:365)*-1);//一年前
-  DateTime longAgo = now.add(const Duration(days:365)*-20);
-  
+  DateTime yearAgo = now.add(const Duration(days: 365) * -1); //一年前
+  DateTime longAgo = now.add(const Duration(days: 365) * -20);
+
   bool isVisible = false; //絞り込みボタンON/OFF
 
   ///Close状態のIssueを除外する機能
-  void getState () {
-    if (checkBox1 == false){
+  void getState() {
+    if (checkBox1 == false) {
       url.state = 'all';
-
-    }else if (checkBox1 == true){
+    } else if (checkBox1 == true) {
       url.state = 'open';
     }
-    fetchLabelsIssue('',url.state,url.since,url.sort);
+    fetchLabelsIssue('', url.state, url.since, url.sort);
   }
 
   ///一年以上の更新しないIssueを除外する機能
-  void getSince () {
-    if (checkBox2 == false){
+  void getSince() {
+    if (checkBox2 == false) {
       url.since = longAgo.toString();
-
-    }else if (checkBox2 == true){
+    } else if (checkBox2 == true) {
       url.since = yearAgo.toString();
     }
-    fetchLabelsIssue('',url.state,url.since,url.sort);
+    fetchLabelsIssue('', url.state, url.since, url.sort);
   }
 
   ///一年以上の更新しないIssueを除外する機能
-  void getSort () {
+  void getSort() {
     ///作成日時の新しい順
-    if (radioButton == 1){
-      url.sort = 'created';
-
-    }
-    ///更新日時の古い順
-    else if (radioButton == 2){
-      url.sort = 'updated-asc';
-
-    }
-    ///コメントの多い順
-    else if (radioButton == 3){
-      url.sort = 'comments';
-
-    }
-    fetchLabelsIssue('',url.state,url.since,url.sort);
-  }
-
-  void getLabel () {
-    ///作成日時の新しい順
-    if (radioButton == 1){
+    if (radioButton == 1) {
       url.sort = 'created';
     }
-    ///更新日時の古い順
-    else if (radioButton == 2){
-      url.sort = 'updated-asc';
 
+    ///更新日時の古い順
+    else if (radioButton == 2) {
+      url.sort = 'updated-asc';
     }
+
     ///コメントの多い順
-    else if (radioButton == 3){
+    else if (radioButton == 3) {
       url.sort = 'comments';
     }
-    fetchLabelsIssue('',url.state,url.since,url.sort);
+    fetchLabelsIssue('', url.state, url.since, url.sort);
   }
 
+  void getLabel() {
+    ///作成日時の新しい順
+    if (radioButton == 1) {
+      url.sort = 'created';
+    }
 
+    ///更新日時の古い順
+    else if (radioButton == 2) {
+      url.sort = 'updated-asc';
+    }
 
+    ///コメントの多い順
+    else if (radioButton == 3) {
+      url.sort = 'comments';
+    }
+    fetchLabelsIssue('', url.state, url.since, url.sort);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,41 +119,42 @@ class _HomePageState extends State<HomePage> {
             appBar: AppBar(
               backgroundColor: Colors.white,
               flexibleSpace: SafeArea(
-                child: TabBar(//タブオプション
-                  isScrollable: true, //スクロール
-                  unselectedLabelColor: Colors.black.withOpacity(0.3), //選択されてないタブの色
-                  unselectedLabelStyle: const TextStyle(fontSize: 12.0), //選択されていないタブのフォントサイズ
-                  labelColor: Colors.black, //タブの文字の色
-                  labelStyle: const TextStyle(fontSize: 16.0), //選択されているフォントサイズ
-                  indicatorColor: Colors.blue, //インディケーターの色
-                  indicatorWeight: 3.0, //インディケーターの太さ
-                  ///タブに表示する内容
-                  tabs: tabs,
-                  onTap: (index) {
-                    if (index == 0){
-                      url.label = '';
-                    }
-                    else if (index == 1){
-                      url.label = 'p: webview';
-                    }else if (index == 2){
-                      url.label = 'p: shared_preferences';
-                    }else if (index == 3){
-                      url.label = 'waiting for customer response';
-                    }else if (index == 4){
-                      url.label = 'severe: new feature';
-                    }else if (index == 5){
-                      url.label = 'p: share';
-                    }else {
-                      url.label = '';
-                    }
+                child: TabBar(
+                    //タブオプション
+                    isScrollable: true, //スクロール
+                    unselectedLabelColor:
+                        Colors.black.withOpacity(0.3), //選択されてないタブの色
+                    unselectedLabelStyle:
+                        const TextStyle(fontSize: 12.0), //選択されていないタブのフォントサイズ
+                    labelColor: Colors.black, //タブの文字の色
+                    labelStyle:
+                        const TextStyle(fontSize: 16.0), //選択されているフォントサイズ
+                    indicatorColor: Colors.blue, //インディケーターの色
+                    indicatorWeight: 3.0, //インディケーターの太さ
+                    ///タブに表示する内容
+                    tabs: tabs,
+                    onTap: (index) {
+                      if (index == 0) {
+                        url.label = '';
+                      } else if (index == 1) {
+                        url.label = 'p: webview';
+                      } else if (index == 2) {
+                        url.label = 'p: shared_preferences';
+                      } else if (index == 3) {
+                        url.label = 'waiting for customer response';
+                      } else if (index == 4) {
+                        url.label = 'severe: new feature';
+                      } else if (index == 5) {
+                        url.label = 'p: share';
+                      } else {
+                        url.label = '';
+                      }
 
-
-                    setState(() {
-
-                    });
-                  }),
+                      setState(() {});
+                    }),
               ),
-              actions: [//右上ボタン
+              actions: [
+                //右上ボタン
                 Ink(
                   decoration: const ShapeDecoration(
                     color: Colors.white,
@@ -163,226 +166,215 @@ class _HomePageState extends State<HomePage> {
                     // アイコン色
                     color: Colors.black,
                     onPressed: () {
-
                       setState(() {
-
                         isVisible = !isVisible;
                       });
                     },
                   ),
                 )
               ],
-
             ),
-            body:  const Center(
-              child:
-                  TabBarView(
-                    ///各内容のタブ
-                    children: [
-                      AllIssuePage(), //全て
-                      AllIssuePage(), //p: webview
-                      AllIssuePage(), //p: shared_preferences
-                      AllIssuePage(), //waiting for customer response
-                      AllIssuePage(), //severe: new feature
-                      AllIssuePage(), //p: share
-                    ]
-                ),
+            body: const Center(
+              child: TabBarView(
+
+                  ///各内容のタブ
+                  children: [
+                    AllIssuePage(), //全て
+                    AllIssuePage(), //p: webview
+                    AllIssuePage(), //p: shared_preferences
+                    AllIssuePage(), //waiting for customer response
+                    AllIssuePage(), //severe: new feature
+                    AllIssuePage(), //p: share
+                  ]),
             ),
           ),
-          Visibility(//表示ON/OFF
-              visible: isVisible,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Colors.black12.withOpacity(0.3),
-                ),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.all(35.0),
-                    child: AspectRatio(
-                      aspectRatio: 1 / 2,
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 25, right: 15, bottom: 5, left: 15,),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Checkbox(
-                                      activeColor: Colors.blue,
-                                      value: checkBox1,
-                                      onChanged: (e) {
-                                        checkBox1 = !checkBox1;
-                                        setState(() {
-
-                                        });
-                                      },
-                                    ),
-                                  ),
-
-                                  const Flexible(
-                                    child: Text('Closed状態のIssueを除外する',
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ),
-
-                                ],
-                              ),
+          Visibility(
+            //表示ON/OFF
+            visible: isVisible,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.black12.withOpacity(0.3),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(35.0),
+                  child: AspectRatio(
+                    aspectRatio: 1 / 2,
+                    child: Card(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 25,
+                              right: 15,
+                              bottom: 5,
+                              left: 15,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 15),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Checkbox(
-                                      activeColor: Colors.blue,
-                                      value: checkBox2,
-                                      onChanged: (e) {
-                                        setState(() {
-                                          checkBox2 = !checkBox2;
-                                        });
-                                      },
-                                    ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Checkbox(
+                                    activeColor: Colors.blue,
+                                    value: checkBox1,
+                                    onChanged: (e) {
+                                      checkBox1 = !checkBox1;
+                                      setState(() {});
+                                    },
                                   ),
-
-                                  const Flexible(
-                                    child: Text('1年以上更新のないIssueを除外する',
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 15),
-                              child: Row(
-                                children: [
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Radio(
-                                      activeColor: Colors.blue,
-                                      value: 1,
-                                      groupValue: radioButton,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          radioButton = 1;
-                                        });
-                                      },
-                                    ),
-                                  ),
-
-                                  const Flexible(
-                                    child: Text('作成日時の新しい順',
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 15),
-                              child: Row(
-                                children: [
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Radio(
-                                      activeColor: Colors.blue,
-                                      value: 2,
-                                      groupValue: radioButton,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          radioButton = 2;
-                                        });
-                                      },
-                                    ),
-                                  ),
-
-                                  const Flexible(
-                                    child: Text('更新日時の古い順',
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 15),
-                              child: Row(
-                                children: [
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Radio(
-                                      activeColor: Colors.blue,
-                                      value: 3,
-                                      groupValue: radioButton,
-                                      onChanged: (e) {
-                                        setState(() {
-                                          radioButton = 3;
-                                        });
-                                      },
-                                    ),
-                                  ),
-
-                                  const Flexible(
-                                    child: Text('コメント数の多い順',
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: ElevatedButton(
-                                child: Row(
-                                  children: const [
-                                    Spacer(),
-                                    Text('更新する'),
-                                    Spacer(),
-                                  ],
                                 ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.white60,
-                                  onPrimary: Colors.black,
-                                  shape: const StadiumBorder(),
+                                const Flexible(
+                                  child: Text(
+                                    'Closed状態のIssueを除外する',
+                                    overflow: TextOverflow.fade,
+                                  ),
                                 ),
-                                onPressed: () {
-
-                                  setState(() {
-                                    getState();
-                                    getSince();
-                                    getSort();
-                                    isVisible = !isVisible;
-                                  });
-                                },
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 15),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Checkbox(
+                                    activeColor: Colors.blue,
+                                    value: checkBox2,
+                                    onChanged: (e) {
+                                      setState(() {
+                                        checkBox2 = !checkBox2;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                const Flexible(
+                                  child: Text(
+                                    '1年以上更新のないIssueを除外する',
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 15),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Radio(
+                                    activeColor: Colors.blue,
+                                    value: 1,
+                                    groupValue: radioButton,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        radioButton = 1;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                const Flexible(
+                                  child: Text(
+                                    '作成日時の新しい順',
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 15),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Radio(
+                                    activeColor: Colors.blue,
+                                    value: 2,
+                                    groupValue: radioButton,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        radioButton = 2;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                const Flexible(
+                                  child: Text(
+                                    '更新日時の古い順',
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 15),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Radio(
+                                    activeColor: Colors.blue,
+                                    value: 3,
+                                    groupValue: radioButton,
+                                    onChanged: (e) {
+                                      setState(() {
+                                        radioButton = 3;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                const Flexible(
+                                  child: Text(
+                                    'コメント数の多い順',
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: ElevatedButton(
+                              child: Row(
+                                children: const [
+                                  Spacer(),
+                                  Text('更新する'),
+                                  Spacer(),
+                                ],
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white60,
+                                onPrimary: Colors.black,
+                                shape: const StadiumBorder(),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  getState();
+                                  getSince();
+                                  getSort();
+                                  isVisible = !isVisible;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
+            ),
           ),
         ],
       ),
     );
   }
 }
-
