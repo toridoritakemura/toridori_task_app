@@ -16,30 +16,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,//タグ非表示
+      debugShowCheckedModeBanner: false, //タグ非表示
       title: _title,
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
       ),
-      home: const MyStatelessWidget(),//home.dart
+      /// review: MyStatelessWidgetは何もしていないのでいらなさそう
+      /// const使ってていいね！
+      home: const HomePage(), //home.dart
     );
   }
-}
-
-class MyStatelessWidget extends StatefulWidget {
-  const MyStatelessWidget({Key? key}) : super(key: key);
-
-  @override
-  State<MyStatelessWidget> createState() => _MyStatelessWidget();
-}
-
-class _MyStatelessWidget extends State<MyStatelessWidget> {
-
-  @override
-  Widget build(BuildContext context) {
-    return const HomePage();
-
-  }
-
 }
