@@ -70,6 +70,8 @@ class IssueRepository {
 
 /// -----------------------------------------------------------------
 
+/// review: 消しましょう！
+/// 本来利用したいapiと違うやつで試すと2度手間になるので慣れてきたら頑張ってみましょう！
 /////Issue単体のAPIデータ取得
 //Future<Issue> fetchOneIssue() async {
 //  final response = await http
