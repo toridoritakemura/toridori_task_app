@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
 
+/// review: fileのメインとなるclassの名前はfile名と合わせましょう！
 class OneIssuePage extends StatefulWidget {
   const OneIssuePage({Key? key}) : super(key: key);
 

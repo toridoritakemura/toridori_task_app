@@ -10,6 +10,7 @@ import 'package:toridori_task_app/View/issue_page.dart';
 /// この辺を参考にproviderとfreezedを導入してください！
 /// https://note.com/mukae9/n/n91b3301ebccf
 
+/// review: fileのメインとなるclassの名前はfile名と合わせましょう！
 ///全体ページ
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

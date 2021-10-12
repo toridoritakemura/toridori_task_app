@@ -3,6 +3,7 @@ import 'package:toridori_task_app/Model/issue_model.dart';
 
 import 'home.dart';
 
+/// review: fileのメインとなるclassの名前はfile名と合わせましょう！
 class AllIssuePage extends StatefulWidget {
   const AllIssuePage({Key? key}) : super(key: key);
   @override
