@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toridori_task_app/Model/filter_model.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
 
 import 'home.dart';
@@ -13,9 +14,14 @@ class AllIssuePage extends StatefulWidget {
 ///IssueListページ
 class _IssueListPage extends State<AllIssuePage> {
   late Future<List<Issue>> futureListIssue;
-
-  /// review: globalな関数は避けた方がいいので追加しました
+  ///todo review: globalな関数は避けた方がいいので追加しました
   final issueRepository = IssueRepository();
+
+  ApiArgument url = ApiArgument(
+      label: '',
+      state: "all",
+      since: '2001-10-16 15:54:34.467953',
+      sort: 'created');
 
   @override
   void initState() {
