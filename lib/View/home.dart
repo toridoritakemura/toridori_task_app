@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
 import 'package:toridori_task_app/Model/filter_model.dart';
+import 'package:toridori_task_app/Model/my_value_notifier.dart';
 
 import 'package:toridori_task_app/View/issue_page.dart';
 
-/// review: おすすめしておいて申し訳ないのですが、StatefulWidgetは基本的には使わない方針で行った方がいいです！
+
+//todo review: おすすめしておいて申し訳ないのですが、StatefulWidgetは基本的には使わない方針で行った方がいいです！
 /// いくつか理由があるのですが、シンプルにいうと、viewにmodelにあるべきデータが溜まるから/setState呼ぶ必要ある/modelと分割できないから という感じです！
 ///
 /// この辺を参考にproviderとfreezedを導入してください！
 /// https://note.com/mukae9/n/n91b3301ebccf
 
-/// review: fileのメインとなるclassの名前はfile名と合わせましょう！
+//todo review: fileのメインとなるclassの名前はfile名と合わせましょう！
 ///全体ページ
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,7 +22,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-/// review: global変数は避けましょう！
+  //todo review: global変数は避けましょう！
 /// これはwidgetの中、フィールド変数にしていいと思います。globalにあるよりかよいです！
 const List<Tab> tabs = <Tab>[
   Tab(
@@ -42,22 +45,22 @@ const List<Tab> tabs = <Tab>[
   ),
 ];
 
-/// review: global変数は避けましょう！
+///todo  review: global変数は避けましょう！
 /// 避けましょう!AllIssuePageに渡すタイミングで都度インスタンス化していいと思います！
-Url url = Url(
+ApiArgument url = ApiArgument(
     label: '',
     state: "all",
     since: '2001-10-16 15:54:34.467953',
     sort: 'created');
 
-/// review: global変数は避けましょう！
+///todo  review: global変数は避けましょう！
 /// 利用箇所が限られており、使用回数も少ないので"now"という変数名よりDateTime.now()という関数呼び出しの方がむしろわかりやすいと思います
 /// 人の判断に寄るので決まりはなく、肌感なので慣れていきましょう！
 /// 10行程下のやつ、final yearAgo = DateTime.now().add(const Duration(days: 365) * -1); でいいのではという話
 DateTime now = DateTime.now();
 
 class _HomePageState extends State<HomePage> {
-  /// review: globalな関数は避けた方がいいので追加しました
+  ///todo review: globalな関数は避けた方がいいので追加しました
   final issueRepository = IssueRepository();
 
   /// --------------------------------------------------------------------------------------
@@ -73,21 +76,23 @@ class _HomePageState extends State<HomePage> {
   /// viewはできるだけwidgetとmodelを持つだけ、という感じにシンプルにする方針で行くといい感じになりそうです！
   ///
   /// review: ネーミングはわかりやすいものを！
-  /// isRemoveClosedとか、filterClosedみたいな？変数名が増えてくると名前だけでその変数に何が入っているか把握したいので今から意識してみてください！
-  bool checkBox1 = false; //Close状態のIssueを除外するチェックボックス
-  bool checkBox2 = false; //一年以上の更新しないIssueを除外するチェックボックス
-  int radioButton = 1; //3つのRadio
+  ///todo isRemoveClosedとか、filterClosedみたいな？変数名が増えてくると名前だけでその変数に何が入っているか把握したいので今から意識してみてください！
+  bool isRemoveClosed = false; //Close状態のIssueを除外するチェックボックス
+  bool isRemoveUpdateYear = false; //一年以上の更新しないIssueを除外するチェックボックス
+  int changeSort = 1; //3つのRadio
 
   DateTime yearAgo = now.add(const Duration(days: 365) * -1); //一年前
   DateTime longAgo = now.add(const Duration(days: 365) * -20);
 
   bool isVisible = false; //絞り込みボタンON/OFF
 
+
+
   ///Close状態のIssueを除外する機能
   void getState() {
-    if (checkBox1 == false) {
+    if (isRemoveClosed == false) {
       url.state = 'all';
-    } else if (checkBox1 == true) {
+    } else if (isRemoveClosed == true) {
       url.state = 'open';
     }
     issueRepository.fetchLabelsIssue('', url.state, url.since, url.sort);
@@ -95,9 +100,9 @@ class _HomePageState extends State<HomePage> {
 
   ///一年以上の更新しないIssueを除外する機能
   void getSince() {
-    if (checkBox2 == false) {
+    if (isRemoveUpdateYear == false) {
       url.since = longAgo.toString();
-    } else if (checkBox2 == true) {
+    } else if (isRemoveUpdateYear == true) {
       url.since = yearAgo.toString();
     }
     issueRepository.fetchLabelsIssue('', url.state, url.since, url.sort);
@@ -106,17 +111,17 @@ class _HomePageState extends State<HomePage> {
   ///一年以上の更新しないIssueを除外する機能
   void getSort() {
     ///作成日時の新しい順
-    if (radioButton == 1) {
+    if (changeSort == 1) {
       url.sort = 'created';
     }
 
     ///更新日時の古い順
-    else if (radioButton == 2) {
+    else if (changeSort == 2) {
       url.sort = 'updated-asc';
     }
 
     ///コメントの多い順
-    else if (radioButton == 3) {
+    else if (changeSort == 3) {
       url.sort = 'comments';
     }
     issueRepository.fetchLabelsIssue('', url.state, url.since, url.sort);
@@ -124,17 +129,17 @@ class _HomePageState extends State<HomePage> {
 
   void getLabel() {
     ///作成日時の新しい順
-    if (radioButton == 1) {
+    if (changeSort == 1) {
       url.sort = 'created';
     }
 
     ///更新日時の古い順
-    else if (radioButton == 2) {
+    else if (changeSort == 2) {
       url.sort = 'updated-asc';
     }
 
     ///コメントの多い順
-    else if (radioButton == 3) {
+    else if (changeSort == 3) {
       url.sort = 'comments';
     }
     issueRepository.fetchLabelsIssue('', url.state, url.since, url.sort);
@@ -166,16 +171,20 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: TabBar(
                           //タブオプション
-                          isScrollable: true, //スクロール
-                          unselectedLabelColor:
-                              Colors.black.withOpacity(0.3), //選択されてないタブの色
-                          unselectedLabelStyle: const TextStyle(
-                              fontSize: 12.0), //選択されていないタブのフォントサイズ
-                          labelColor: Colors.black, //タブの文字の色
-                          labelStyle:
-                              const TextStyle(fontSize: 16.0), //選択されているフォントサイズ
-                          indicatorColor: Colors.blue, //インディケーターの色
-                          indicatorWeight: 3.0, //インディケーターの太さ
+                          isScrollable: true,
+                          //スクロール
+                          unselectedLabelColor: Colors.black.withOpacity(0.3),
+                          //選択されてないタブの色
+                          unselectedLabelStyle: const TextStyle(fontSize: 12.0),
+                          //選択されていないタブのフォントサイズ
+                          labelColor: Colors.black,
+                          //タブの文字の色
+                          labelStyle: const TextStyle(fontSize: 16.0),
+                          //選択されているフォントサイズ
+                          indicatorColor: Colors.blue,
+                          //インディケーターの色
+                          indicatorWeight: 3.0,
+                          //インディケーターの太さ
                           ///タブに表示する内容
                           tabs: tabs,
                           onTap: (index) {
@@ -265,9 +274,9 @@ class _HomePageState extends State<HomePage> {
                                   padding: const EdgeInsets.all(3.0),
                                   child: Checkbox(
                                     activeColor: Colors.blue,
-                                    value: checkBox1,
+                                    value: isRemoveClosed,
                                     onChanged: (e) {
-                                      checkBox1 = !checkBox1;
+                                      isRemoveClosed = !isRemoveClosed;
                                       setState(() {});
                                     },
                                   ),
@@ -290,10 +299,10 @@ class _HomePageState extends State<HomePage> {
                                   padding: const EdgeInsets.all(3.0),
                                   child: Checkbox(
                                     activeColor: Colors.blue,
-                                    value: checkBox2,
+                                    value: isRemoveUpdateYear,
                                     onChanged: (e) {
                                       setState(() {
-                                        checkBox2 = !checkBox2;
+                                        isRemoveUpdateYear = !isRemoveUpdateYear;
                                       });
                                     },
                                   ),
@@ -317,10 +326,10 @@ class _HomePageState extends State<HomePage> {
                                   child: Radio(
                                     activeColor: Colors.blue,
                                     value: 1,
-                                    groupValue: radioButton,
+                                    groupValue: changeSort,
                                     onChanged: (value) {
                                       setState(() {
-                                        radioButton = 1;
+                                        changeSort = 1;
                                       });
                                     },
                                   ),
@@ -344,10 +353,10 @@ class _HomePageState extends State<HomePage> {
                                   child: Radio(
                                     activeColor: Colors.blue,
                                     value: 2,
-                                    groupValue: radioButton,
+                                    groupValue: changeSort,
                                     onChanged: (value) {
                                       setState(() {
-                                        radioButton = 2;
+                                        changeSort = 2;
                                       });
                                     },
                                   ),
@@ -371,10 +380,10 @@ class _HomePageState extends State<HomePage> {
                                   child: Radio(
                                     activeColor: Colors.blue,
                                     value: 3,
-                                    groupValue: radioButton,
+                                    groupValue: changeSort,
                                     onChanged: (e) {
                                       setState(() {
-                                        radioButton = 3;
+                                        changeSort = 3;
                                       });
                                     },
                                   ),
@@ -427,8 +436,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-
-
 /// review: 参考
 /// Provider入れていないので操作してもUIに変更は起こりません
 class HomeScreen extends StatelessWidget {
@@ -436,7 +443,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Stack(
-      children: [
+      children: const [
         Scaffold(
           body: _Body(),
         ),
@@ -451,7 +458,7 @@ class _Dialog extends StatelessWidget {
   const _Dialog();
 
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('title!!!'),
     );
   }
@@ -463,8 +470,58 @@ class _Body extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: const [
         Text('Body'),
+      ],
+    );
+  }
+}
+
+
+class CountData extends ChangeNotifier{
+  int count = 0;
+
+  void increment() {
+    count = count + 1;
+    // 値が変更したことを知らせる
+    //  >> UIを再構築する
+    notifyListeners();
+  }
+}
+
+class ParentWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Provider<T>() で子Widgetにデータを渡す
+    // ※ 渡すデータの クラス と <T> は揃えましょう
+    return ChangeNotifierProvider<CountData>(
+      // 渡すデータ
+      create: (context) => CountData(),
+      child: Container(
+        child: ChildWidget(),
+      ),
+    );
+  }
+}
+
+class ChildWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Provider.of<T>(context) で親Widgetからデータを受け取る
+    // ※ 受け取るデータの クラス と <T> は揃えましょう
+    final CountData data = Provider.of<CountData>(context);
+
+    return Column(
+      children: <Widget>[
+        // 受け取ったデータを使いUI作成
+        Text('count is ${data.count.toString()}'),
+        ElevatedButton(
+          child: Text('Increment'),
+          onPressed: () {
+            // データを更新
+            data.increment();
+          },
+        ),
       ],
     );
   }

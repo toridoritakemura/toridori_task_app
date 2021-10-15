@@ -1,4 +1,4 @@
-/// review: ignore_for_fileはいらなさそう
+//todo review: ignore_for_fileはいらなさそう
 import 'package:flutter/material.dart';
 import 'package:toridori_task_app/View/home.dart';
 
@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
 
   static const String _title = 'Flutter Code Sample';
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
 
-      /// review: MyStatelessWidgetは何もしていないのでいらなさそう
+      //todo review: MyStatelessWidgetは何もしていないのでいらなさそう
       /// const使ってていいね！
       home: const HomePage(), //home.dart
     );

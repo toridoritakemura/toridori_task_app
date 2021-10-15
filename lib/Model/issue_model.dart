@@ -40,10 +40,9 @@ class Issue {
 }
 
 /// -----------------------------------------------------------------
-/// review: 別ファイルに分けた方がいい
+//todo review: 別ファイルに分けた方がいい
 class IssueRepository {
-
-  /// review: globalな関数・変数などは基本的に作成しない方針で行った方がいいです。
+  //todo review: globalな関数・変数などは基本的に作成しない方針で行った方がいいです。
   /// 沢山globalなやつがあると後からあれどこにあったっけ？とかがたどりにくくなります。
   /// とりあえずはグルーピングするという意識でよいのでやってみてください
   ///
@@ -70,22 +69,5 @@ class IssueRepository {
 
 /// -----------------------------------------------------------------
 
-/// review: 消しましょう！
+//todo review: 消しましょう！
 /// 本来利用したいapiと違うやつで試すと2度手間になるので慣れてきたら頑張ってみましょう！
-/////Issue単体のAPIデータ取得
-//Future<Issue> fetchOneIssue() async {
-//  final response = await http
-//      .get(Uri.parse('https://api.github.com/repos/flutter/flutter/issues/90597'),
-//    headers: {
-//      HttpHeaders.authorizationHeader: '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',
-//    },
-//  );
-//
-//  //サーバーが200 OK のレスポンスを返した場合、
-//  if (response.statusCode == 200) {
-//    //JSONを解析。
-//    return Issue.fromJson(jsonDecode(response.body));
-//  } else {
-//    throw Exception('Failed to load album');
-//  }
-//}
