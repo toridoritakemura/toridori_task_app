@@ -1,7 +1,7 @@
 //todo review: ignore_for_fileはいらなさそう
 import 'package:flutter/material.dart';
 
-import 'package:toridori_task_app/View/home.dart';
+import 'package:toridori_task_app/home.dart';
 
 void main() async {
   runApp(const MyApp());

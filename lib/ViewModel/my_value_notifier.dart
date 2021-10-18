@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
 
-import 'filter_model.dart';
+import '../Model/filter_model.dart';
 
 part 'my_value_notifier.freezed.dart';
 
@@ -11,7 +12,7 @@ part 'my_value_notifier.freezed.dart';
 class MyValueState with _$MyValueState {
   const factory MyValueState({
     @Default(0) int count, //状態管理されている実際の値
-    @Default(false) bool isLoading,//処理中のUI
+    @Default(false) bool isLoading, //処理中のUI
     @Default(false) bool isFilter, //絞り込みボタンON/OFF
     @Default(false) bool isState, //Close状態のIssueを除外するチェックボックス
     @Default(false) bool isSince, //一年以上の更新しないIssueを除外するチェックボックス
@@ -25,18 +26,40 @@ class MyValueNotifier extends StateNotifier<MyValueState> with LocatorMixin {
   MyValueNotifier({
     required this.context,
   }) : super(const MyValueState());
+  final BuildContext context;
+
 
   ///todo review: globalな関数は避けた方がいいので追加しました
   final issueRepository = IssueRepository();
 
-  late Future<List<Issue>> futureListIssue;
 
-  final BuildContext context;
   ApiArgument url = ApiArgument(
       label: '',
       state: "all",
       since: '2001-10-16 15:54:34.467953',
       sort: 'created');
+
+  static const tabs = <Tab>[
+    Tab(
+      text: '全て',
+    ),
+    Tab(
+      text: 'p: webview',
+    ),
+    Tab(
+      text: 'p: shared_preferences',
+    ),
+    Tab(
+      text: 'waiting for customer response',
+    ),
+    Tab(
+      text: 'severe: new feature',
+    ),
+    Tab(
+      text: 'p: share',
+    ),
+  ];
+
 
   @override
   void dispose() {
@@ -53,8 +76,9 @@ class MyValueNotifier extends StateNotifier<MyValueState> with LocatorMixin {
   void getIssues() async {
     getLoading();
     final issueRepository = IssueRepository();
-    final issueList = await issueRepository.fetchLabelsIssue(url.label, url.state, url.since, url.sort);
-    state =state.copyWith(isIssues: issueList);
+    final issueList = await issueRepository.fetchLabelsIssue(
+        url.label, url.state, url.since, url.sort);
+    state = state.copyWith(isIssues: issueList);
     getLoading();
   }
 
