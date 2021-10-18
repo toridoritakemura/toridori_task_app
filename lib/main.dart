@@ -1,6 +1,6 @@
 //todo review: ignore_for_fileはいらなさそう
 import 'package:flutter/material.dart';
-import 'package:toridori_task_app/Model/my_value_notifier.dart';
+
 import 'package:toridori_task_app/View/home.dart';
 
 void main() async {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
 
       //todo review: MyStatelessWidgetは何もしていないのでいらなさそう
       /// const使ってていいね！
-      home:  HomePage.wrapped(), //home.dart
+      home: HomePage.wrapped(), //home.dart
     );
   }
 }

@@ -1,49 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:toridori_task_app/Model/filter_model.dart';
-import 'package:toridori_task_app/Model/issue_model.dart';
 
-import 'home.dart';
+// ignore: implementation_imports
+import 'package:provider/src/provider.dart';
 
-/// review: fileのメインとなるclassの名前はfile名と合わせましょう！
-class AllIssuePage extends StatefulWidget {
-  const AllIssuePage({Key? key}) : super(key: key);
-  @override
-  _IssueListPage createState() => _IssueListPage();
-}
+import 'package:toridori_task_app/Model/my_value_notifier.dart';
+
+///todo review: fileのメインとなるclassの名前はfile名と合わせましょう！
 
 ///IssueListページ
-class _IssueListPage extends State<AllIssuePage> {
-  late Future<List<Issue>> futureListIssue;
-  ///todo review: globalな関数は避けた方がいいので追加しました
-  final issueRepository = IssueRepository();
+class IssuePage extends StatelessWidget {
+  const IssuePage({Key? key}) : super(key: key);
 
-  ApiArgument url = ApiArgument(
-      label: '',
-      state: "all",
-      since: '2001-10-16 15:54:34.467953',
-      sort: 'created');
 
-  @override
-  void initState() {
-    super.initState();
-    futureListIssue =
-        issueRepository.fetchLabelsIssue(url.label, url.state, url.since, url.sort);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      /// review: FutureBuilderは避けましょう！
-      /// tabを横に移動させたらわかると思うのですが、一度読み込んだtabも再度表示するためにapiを叩いています。
-      /// Providerとfreezedで綺麗に解決することができるので頑張ってください！
-      /// https://note.com/mukae9/n/n91b3301ebccf
-      child: FutureBuilder<List<Issue>>(
-          future: futureListIssue,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              List<Issue> issues = snapshot.data;
+      ///todo review: FutureBuilderは避けましょう！
+      ///todo tabを横に移動させたらわかると思うのですが、一度読み込んだtabも再度表示するためにapiを叩いています。
+      ///todo Providerとfreezedで綺麗に解決することができるので頑張ってください！
+      ///todo https://note.com/mukae9/n/n91b3301ebccf
+      child: Builder(builder: (context) {
+        final isIssues = context.select((MyValueState state) => state.isIssues);
+        final isLoading = context.select((MyValueState state) => state.isLoading);
+        if (isLoading == false){
+          return Builder(
+            builder: (context) {
               return ListView.builder(
-                itemCount: issues.length,
+                itemCount: isIssues.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -53,11 +37,9 @@ class _IssueListPage extends State<AllIssuePage> {
                           Row(
                             children: [
                               const Text('No'),
-                              Text(issues[index].number.toString()),
+                              Text(isIssues[index].number.toString()),
                               const Icon(Icons.comment),
-                              Text(issues[index].comments.toString()),
-//                                      Text(issues[index].state ?? 'state'),
-//                                      Text(issues[index].updated ?? 'updated'),
+                              Text(isIssues[index].comments.toString()),
                             ],
                           ),
                           Row(
@@ -69,7 +51,7 @@ class _IssueListPage extends State<AllIssuePage> {
                               ),
                               Flexible(
                                 child: Text(
-                                  issues[index].title ?? 'ー',
+                                  isIssues[index].title ?? 'ー',
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -85,7 +67,7 @@ class _IssueListPage extends State<AllIssuePage> {
                                 color: Colors.blueAccent.withOpacity(0.3),
                               ),
                               child: Text(
-                                issues[index].body ?? '-',
+                                isIssues[index].body ?? '-',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 3,
                               )),
@@ -93,7 +75,7 @@ class _IssueListPage extends State<AllIssuePage> {
                             alignment: Alignment.bottomLeft,
                             child: Row(
                               children: [
-                                Text(issues[index].updatedAt ?? 'エラー'),
+                                Text(isIssues[index].updatedAt ?? 'エラー'),
                                 const Spacer(),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(
@@ -107,9 +89,7 @@ class _IssueListPage extends State<AllIssuePage> {
                                       color: Colors.black45,
                                     ),
                                   ),
-                                  onPressed: () {
-                                    setState(() {});
-                                  },
+                                  onPressed: () {},
                                 ),
                               ],
                             ),
@@ -120,10 +100,16 @@ class _IssueListPage extends State<AllIssuePage> {
                   );
                 },
               );
-            } else {
-              return const CircularProgressIndicator();
             }
-          }),
+          );
+        }else if (isLoading== true){
+          return const CircularProgressIndicator();
+        }
+        else {
+          return const Text('error');
+        }
+
+      }),
     );
   }
 }

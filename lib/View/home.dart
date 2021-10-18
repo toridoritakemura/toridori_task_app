@@ -1,8 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
 import 'package:provider/provider.dart';
-import 'package:toridori_task_app/Model/issue_model.dart';
-import 'package:toridori_task_app/Model/filter_model.dart';
+
 import 'package:toridori_task_app/Model/my_value_notifier.dart';
 
 import 'package:toridori_task_app/View/issue_page.dart';
@@ -22,12 +22,10 @@ import 'package:toridori_task_app/View/issue_page.dart';
 ///todo  review: global変数は避けましょう！
 ///todo 避けましょう!AllIssuePageに渡すタイミングで都度インスタンス化していいと思います！
 
-
 ///todo  review: global変数は避けましょう！
 ///todo 利用箇所が限られており、使用回数も少ないので"now"という変数名よりDateTime.now()という関数呼び出しの方がむしろわかりやすいと思います
 ///todo 人の判断に寄るので決まりはなく、肌感なので慣れていきましょう！
 ///todo 10行程下のやつ、final yearAgo = DateTime.now().add(const Duration(days: 365) * -1); でいいのではという話
-
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,7 +47,6 @@ class HomePage extends StatelessWidget {
 
   ///todo review: globalな関数は避けた方がいいので追加しました
 
-
   /// --------------------------------------------------------------------------------------
   ///todo review: Providerを導入したら、
   ///todo 上の区切りで挟んだ関数・変数たちはStateNotifierのclassに移動させましょう！
@@ -65,12 +62,10 @@ class HomePage extends StatelessWidget {
   ///todo review: ネーミングはわかりやすいものを！
   ///todo isRemoveClosedとか、filterClosedみたいな？変数名が増えてくると名前だけでその変数に何が入っているか把握したいので今から意識してみてください！
 
-
   /// --------------------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
-
     const List<Tab> tabs = <Tab>[
       Tab(
         text: '全て',
@@ -98,7 +93,7 @@ class HomePage extends StatelessWidget {
       length: tabs.length, //タブの数
       child: Stack(
         children: [
-          /// review: Providerを導入したら、
+          ///todo review: Providerを導入したら、
           /// 巨大なbuild関数を避けましょう！
           /// StatefulWidgetの弊害なのですが、widgetを複数に分けづらいと思います。
           /// このfileの一番下にProviderを入れたらこんな風に分割したらいいと思うよ！というのを書いておきます。よければ参考にしてください。
@@ -106,9 +101,8 @@ class HomePage extends StatelessWidget {
             appBar: AppBar(
               backgroundColor: Colors.white,
               flexibleSpace: SafeArea(
-                /// review: tabbarの横においているiconが重なってしまっている
-                /// アイコン横に置けていい感じですね！
-                /// ただ、最後のタブを表示したとき重なってしまっています。下記は修正の一例です！参考にしてください
+                ///todo review: tabbarの横においているiconが重なってしまっているアイコン横に置けていい感じですね！
+                ///todo ただ、最後のタブを表示したとき重なってしまっています。下記は修正の一例です！参考にしてください
                 child: Row(
                   children: [
                     /// tabbar
@@ -133,6 +127,7 @@ class HomePage extends StatelessWidget {
                           tabs: tabs,
                           onTap: (index) {
                             notifier.getLabel(index);
+                            notifier.getIssues();
 
                           }),
                     ),
@@ -151,6 +146,7 @@ class HomePage extends StatelessWidget {
                         color: Colors.black,
                         onPressed: () {
                           notifier.switchFilter();
+
                         },
                       ),
                     ),
@@ -163,12 +159,12 @@ class HomePage extends StatelessWidget {
 
                   ///各内容のタブ
                   children: [
-                    AllIssuePage(), //全て
-                    AllIssuePage(), //p: webview
-                    AllIssuePage(), //p: shared_preferences
-                    AllIssuePage(), //waiting for customer response
-                    AllIssuePage(), //severe: new feature
-                    AllIssuePage(), //p: share
+                    IssuePage(), //全て
+                    IssuePage(), //p: webview
+                    IssuePage(), //p: shared_preferences
+                    IssuePage(), //waiting for customer response
+                    IssuePage(), //severe: new feature
+                    IssuePage(), //p: share
                   ]),
             ),
           ),
@@ -176,15 +172,14 @@ class HomePage extends StatelessWidget {
             final isFilter =
                 context.select((MyValueState state) => state.isFilter);
             final isState =
-            context.select((MyValueState state) => state.isState);
+                context.select((MyValueState state) => state.isState);
             final isSince =
-            context.select((MyValueState state) => state.isSince);
-            final isSort =
-            context.select((MyValueState state) => state.isSort);
+                context.select((MyValueState state) => state.isSince);
+            final isSort = context.select((MyValueState state) => state.isSort);
 
             return Visibility(
               //表示ON/OFF
-              visible: isFilter ,
+              visible: isFilter,
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: Colors.black12.withOpacity(0.3),
@@ -205,26 +200,26 @@ class HomePage extends StatelessWidget {
                                 bottom: 5,
                                 left: 15,
                               ),
-                              child:  Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: Checkbox(
-                                        activeColor: Colors.blue,
-                                        value: isState,
-                                        onChanged: (e) {
-                                          notifier.switchState();
-                                        },
-                                      ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Checkbox(
+                                      activeColor: Colors.blue,
+                                      value: isState,
+                                      onChanged: (e) {
+                                        notifier.switchState();
+                                      },
                                     ),
-                                    const Flexible(
-                                      child: Text(
-                                        'Closed状態のIssueを除外する',
-                                        overflow: TextOverflow.fade,
-                                      ),
+                                  ),
+                                  const Flexible(
+                                    child: Text(
+                                      'Closed状態のIssueを除外する',
+                                      overflow: TextOverflow.fade,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -313,7 +308,6 @@ class HomePage extends StatelessWidget {
                                       groupValue: isSort,
                                       onChanged: (value) {
                                         notifier.switchSort(value);
-
                                       },
                                     ),
                                   ),

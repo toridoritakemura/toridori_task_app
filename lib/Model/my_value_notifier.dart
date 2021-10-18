@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:state_notifier/state_notifier.dart';
 import 'package:toridori_task_app/Model/issue_model.dart';
-import 'package:toridori_task_app/View/home.dart';
 
 import 'filter_model.dart';
 
@@ -12,18 +11,25 @@ part 'my_value_notifier.freezed.dart';
 class MyValueState with _$MyValueState {
   const factory MyValueState({
     @Default(0) int count, //状態管理されている実際の値
+    @Default(false) bool isLoading,//処理中のUI
     @Default(false) bool isFilter, //絞り込みボタンON/OFF
     @Default(false) bool isState, //Close状態のIssueを除外するチェックボックス
     @Default(false) bool isSince, //一年以上の更新しないIssueを除外するチェックボックス
     @Default(1) int isSort, //3つのRadio
+    @Default([]) List<Issue> isIssues,
   }) = _MyValueState;
+//  flutter pub run build_runner build --delete-conflicting-outputs
 }
-
 
 class MyValueNotifier extends StateNotifier<MyValueState> with LocatorMixin {
   MyValueNotifier({
     required this.context,
   }) : super(const MyValueState());
+
+  ///todo review: globalな関数は避けた方がいいので追加しました
+  final issueRepository = IssueRepository();
+
+  late Future<List<Issue>> futureListIssue;
 
   final BuildContext context;
   ApiArgument url = ApiArgument(
@@ -38,7 +44,24 @@ class MyValueNotifier extends StateNotifier<MyValueState> with LocatorMixin {
   }
 
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+    getIssues();
+  }
+
+  ///Issue更新
+  void getIssues() async {
+    getLoading();
+    final issueRepository = IssueRepository();
+    final issueList = await issueRepository.fetchLabelsIssue(url.label, url.state, url.since, url.sort);
+    state =state.copyWith(isIssues: issueList);
+    getLoading();
+  }
+
+  ///更新中処理
+  void getLoading() async {
+    state = state.copyWith(isLoading: !state.isLoading);
+  }
 
   ///Filter切り替え
   void switchFilter() {
