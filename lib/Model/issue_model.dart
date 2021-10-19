@@ -54,7 +54,7 @@ class IssueRepository {
           'https://api.github.com/repos/flutter/flutter/issues?labels=$labels&state=$state&since=$since&sort=$sort'),
       headers: {
         HttpHeaders.authorizationHeader:
-            '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',
+            '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',
       },
     );
 
@@ -62,6 +62,7 @@ class IssueRepository {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Issue.fromJson(data)).toList();
     } else {
+
       throw Exception('Unexpected error occured!');
     }
   }

@@ -70,6 +70,7 @@ class MyValueNotifier extends StateNotifier<MyValueState> with LocatorMixin {
   void initState() {
     super.initState();
     getIssues();
+
   }
 
   ///Issue更新

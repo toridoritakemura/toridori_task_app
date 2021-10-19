@@ -22,6 +22,7 @@ class FilterButton extends StatelessWidget {
           color: Colors.black,
           onPressed: () {
             notifier.switchFilter();
+
           },
         ),
       );

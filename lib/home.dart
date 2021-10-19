@@ -68,6 +68,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final notifier = context.watch<MyValueNotifier>();
     return DefaultTabController(
       initialIndex: 0,
       length: MyValueNotifier.tabs.length, //タブの数
@@ -87,12 +88,14 @@ class HomePage extends StatelessWidget {
                   children: const [
                     TabsBar(), //TabBar
                     FilterButton(), //FilterButton
+
                   ],
                 ),
               ),
             ),
             body: const Center(
               child: TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
 
                   ///各内容のタブ
                   children: [
@@ -103,7 +106,7 @@ class HomePage extends StatelessWidget {
                     IssuePage(), //severe: new feature
                     IssuePage(), //p: share
                   ]),
-              
+
             ),
           ),
           const FilterPage(),

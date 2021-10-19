@@ -174,11 +174,13 @@ class FilterPage extends StatelessWidget {
                             onPrimary: Colors.black,
                             shape: const StadiumBorder(),
                           ),
-                          onPressed: () {
+                          onPressed: ()  {
                             notifier.getState();
                             notifier.getSince();
                             notifier.getSort();
                             notifier.switchFilter();
+
+                            notifier.getIssues();
                           },
                         ),
                       ),
