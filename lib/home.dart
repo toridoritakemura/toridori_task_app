@@ -68,50 +68,63 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notifier = context.watch<MyValueNotifier>();
     return DefaultTabController(
       initialIndex: 0,
       length: MyValueNotifier.tabs.length, //タブの数
-      child: Stack(
-        children: [
-          ///todo review: Providerを導入したら、
-          ///todo 巨大なbuild関数を避けましょう！
-          ///todo StatefulWidgetの弊害なのですが、widgetを複数に分けづらいと思います。
-          ///todo このfileの一番下にProviderを入れたらこんな風に分割したらいいと思うよ！というのを書いておきます。よければ参考にしてください。
-          Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              flexibleSpace: SafeArea(
-                ///todo review: tabbarの横においているiconが重なってしまっているアイコン横に置けていい感じですね！
-                ///todo ただ、最後のタブを表示したとき重なってしまっています。下記は修正の一例です！参考にしてください
-                child: Row(
-                  children: const [
-                    TabsBar(), //TabBar
-                    FilterButton(), //FilterButton
+      child: Builder(builder: (context) {
+        final notifier = context.watch<MyValueNotifier>();
+        final TabController tabController = DefaultTabController.of(context)!;
+        tabController.addListener(() {
 
-                  ],
+          if (!tabController.indexIsChanging) {
+            //ここでcontrollerの値が変わった時の処理を書く。
+            notifier.getLabel(tabController.index);
+            print(tabController.index);
+            notifier.getIssues();
+            print('a');
+
+
+
+          }
+        });
+        return Stack(
+          children: [
+            ///todo review: Providerを導入したら、
+            ///todo 巨大なbuild関数を避けましょう！
+            ///todo StatefulWidgetの弊害なのですが、widgetを複数に分けづらいと思います。
+            ///todo このfileの一番下にProviderを入れたらこんな風に分割したらいいと思うよ！というのを書いておきます。よければ参考にしてください。
+            Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                flexibleSpace: SafeArea(
+                  ///todo review: tabbarの横においているiconが重なってしまっているアイコン横に置けていい感じですね！
+                  ///todo ただ、最後のタブを表示したとき重なってしまっています。下記は修正の一例です！参考にしてください
+                  child: Row(
+                    children: const [
+                      TabsBar(), //TabBar
+                      FilterButton(), //FilterButton
+                    ],
+                  ),
                 ),
               ),
-            ),
-            body: const Center(
-              child: TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
+              body: const Center(
+                child: TabBarView(
 
-                  ///各内容のタブ
-                  children: [
-                    IssuePage(), //全て
-                    IssuePage(), //p: webview
-                    IssuePage(), //p: shared_preferences
-                    IssuePage(), //waiting for customer response
-                    IssuePage(), //severe: new feature
-                    IssuePage(), //p: share
-                  ]),
-
+                    ///各内容のタブ
+                    children: [
+                      IssuePage(), //全て
+                      IssuePage(), //p: webview
+                      IssuePage(), //p: shared_preferences
+                      IssuePage(), //waiting for customer response
+                      IssuePage(), //severe: new feature
+                      IssuePage(), //p: share
+                    ]),
+              ),
             ),
-          ),
-          const FilterPage(),
-        ],
-      ),
+            const FilterPage(),
+          ],
+        );
+      }),
     );
   }
 }

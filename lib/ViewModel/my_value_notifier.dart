@@ -12,6 +12,7 @@ part 'my_value_notifier.freezed.dart';
 class MyValueState with _$MyValueState {
   const factory MyValueState({
     @Default(0) int count, //状態管理されている実際の値
+    @Default(0) int tabIndex,
     @Default(false) bool isLoading, //処理中のUI
     @Default(false) bool isFilter, //絞り込みボタンON/OFF
     @Default(false) bool isState, //Close状態のIssueを除外するチェックボックス
@@ -61,6 +62,8 @@ class MyValueNotifier extends StateNotifier<MyValueState> with LocatorMixin {
   ];
 
 
+
+
   @override
   void dispose() {
     super.dispose();
@@ -70,6 +73,7 @@ class MyValueNotifier extends StateNotifier<MyValueState> with LocatorMixin {
   void initState() {
     super.initState();
     getIssues();
+//    getLabel(index);
 
   }
 
@@ -109,7 +113,7 @@ class MyValueNotifier extends StateNotifier<MyValueState> with LocatorMixin {
   }
 
   ///label取得
-  void getLabel(index) {
+  void getLabel(int index) {
     if (index == 0) {
       url.label = '';
     } else if (index == 1) {
@@ -170,6 +174,6 @@ class MyValueNotifier extends StateNotifier<MyValueState> with LocatorMixin {
     else if (state.isSort == 3) {
       url.sort = 'comments';
     }
-    issueRepository.fetchLabelsIssue(url.label, url.state, url.since, url.sort);
+
   }
 }

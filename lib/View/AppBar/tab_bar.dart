@@ -31,10 +31,10 @@ class TabsBar extends StatelessWidget with PreferredSizeWidget {
           //インディケーターの太さ
           ///タブに表示する内容
           tabs: MyValueNotifier.tabs,
-
           onTap: (index) {
             notifier.getLabel(index);
             notifier.getIssues();
+
           }),
     );
   }

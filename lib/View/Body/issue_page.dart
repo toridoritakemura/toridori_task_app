@@ -13,6 +13,7 @@ class IssuePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final notifier = context.watch<MyValueNotifier>();
     return Center(
       ///todo review: FutureBuilderは避けましょう！
       ///todo tabを横に移動させたらわかると思うのですが、一度読み込んだtabも再度表示するためにapiを叩いています。
@@ -22,6 +23,7 @@ class IssuePage extends StatelessWidget {
         final isIssues = context.select((MyValueState state) => state.isIssues);
         final isLoading =
             context.select((MyValueState state) => state.isLoading);
+
         if (isLoading == false) {
           return Builder(builder: (context) {
             return ListView.builder(
